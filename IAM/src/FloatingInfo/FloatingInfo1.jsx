@@ -47,15 +47,15 @@ function FloatingInfo1() {
           />
       
        <div style={{ fontSize: '15px', paddingTop: '10px' }}>
-      <div style={{ marginLeft: '20%' }}><h7 style={{ fontWeight:'bold' }}>Gram stain</h7> : Gram Positive</div>
-            <div style={{ marginLeft: '3%'}}><h7 style={{ fontWeight:'bold' }}>Shape</h7> :   Spherical</div>
-            <div style={{ marginLeft: '27%' }}> <h7 style={{ fontWeight:'bold' }}>Infection </h7> :  nosocomial
+      <div style={{ marginLeft: '25%' }}><h7 style={{ fontWeight:'bold' }}>Gram stain</h7> : Gram Positive</div>
+            <div style={{ marginLeft: '26%'}}><h7 style={{ fontWeight:'bold' }}>Shape</h7> :   Spherical</div>
+            <div style={{ marginLeft: '30%',textalign:'justify' }}> <h7 style={{ fontWeight:'bold' }}>Infection </h7> :  nosocomial
                    infections such as bacteremia, endocarditis,
                   and urinary tract and surgical wound infections.
                       </div>
                       
           </div>
-          <div>Notably, in February 2017, the World Health Organization (WHO) designated
+          <div style={{ textalign:'justify' }}>Notably, in February 2017, the World Health Organization (WHO) designated
                             vancomycin-resistant E. faecium as a high-priority pathogen due to a significant increase in its
                            prevalence.</div>
 

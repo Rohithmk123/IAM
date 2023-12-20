@@ -33,17 +33,38 @@ function FloatingInfo6() {
     }
   }, [scrollPosition]);
 
-  return (
-    <div id="floatingInfo1" style={{ position: 'absolute', right: position, top: '1700px', zIndex: '1', width: '350px', height: '300px', padding: '20px', backgroundColor: 'rgba(240, 240, 240, 0.8)', transition: 'right 0.5s ease-in-out', borderRadius:'50px' }}>
+  return (<Link to="Enterobacter spp">
+    <div id="floatingInfo1" style={{ position: 'absolute', right: position, top: '1700px', zIndex: '1', width: '350px', height: '350px', padding: '20px', backgroundColor: 'rgba(240, 240, 240, 0.8)', transition: 'right 0.5s ease-in-out', borderRadius:'50px' }}>
       {/* Add your additional information content here */}
       <div>
         
         <p style={{ cursor: 'pointer', textDecoration: 'underline',textDecorationColorcolor:'black',textAlign: 'center' }}>
-         <Link to="Enterobacter spp"> 1 Enterobacter spp</Link>
+        <h5>Enterobacter spp</h5> 
         </p>
-        
+        <div>
+        <img
+            src='/e facum.jpg' 
+            alt="Enterococcus Image"
+            style={{ width: '90px', height: '90px', position: 'absolute', top: '70px', left: '10px' }}
+          />
+      
+       <div style={{ fontSize: '15px', paddingTop: '10px' , color: 'purple' }}>
+      <div style={{ marginLeft: '25%' }}><h7 style={{ fontWeight:'bold' }}>Gram stain</h7> : Gram-negative</div>
+            <div style={{ marginLeft: '36%'}}><h7 style={{ fontWeight:'bold' }}>Shape</h7> :   Rod-shaped</div>
+            <div style={{ marginLeft: '30%',textalign:'justify' }}> <h7 style={{ fontWeight:'bold' }}>Infection </h7> :  
+           
+            Various clinical syndromes, including bacteremia, lower respiratory 
+tract infections, urinary tract infections, surgical site infections, and intravascular 
+device-associated infections. 
+                      </div>
+                      
+          </div>
+          <div style={{ textalign:'justify', color: 'purple' }}>   The WHO listed carbapenem-resistant Enterobacteriaceae in 2017 
+as a concerning antibiotic-resistant group.  </div>
+      </div>
       </div>
     </div>
+    </Link>
   );
 }
 

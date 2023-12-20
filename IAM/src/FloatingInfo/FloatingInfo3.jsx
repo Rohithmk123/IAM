@@ -33,17 +33,37 @@ function FloatingInfo3() {
     }
   }, [scrollPosition]);
 
-  return (
-    <div id="floatingInfo1" style={{ position: 'absolute', left: position, top: '1300px', zIndex: '1', width: '350px', height: '300px', padding: '20px', backgroundColor: 'rgba(240, 240, 240, 0.8)', transition: 'left 0.5s ease-in-out', borderRadius:'50px' }}>
+  return ( <Link to="Klebsiella pneumoniae">
+    <div id="floatingInfo1" style={{ position: 'absolute', left: position, top: '1300px', zIndex: '1', width: '350px', height: '350px', padding: '20px', backgroundColor: 'rgba(240, 240, 240, 0.8)', transition: 'left 0.5s ease-in-out', borderRadius:'50px' }}>
       {/* Add your additional information content here */}
       <div>
         
-        <p style={{ cursor: 'pointer', textDecoration: 'underline',textDecorationColorcolor:'black' ,textAlign: 'center'}}>
-         <Link to="Klebsiella pneumoniae"> 1 Klebsiella pneumoniae</Link>
+        <p style={{ cursor: 'pointer', textDecoration: '',textDecorationColorcolor:'#ffff' ,textAlign: 'center'}}>
+          <h5>Klebsiella pneumoniae</h5>
         </p>
-        
+        <div>
+        <img
+            src='/e facum.jpg' 
+            alt="Enterococcus Image"
+            style={{ width: '90px', height: '90px', position: 'absolute', top: '70px', left: '10px' }}
+          />
+      
+       <div style={{ fontSize: '15px', paddingTop: '10px' , color: 'purple' }}>
+      <div style={{ marginLeft: '25%' }}><h7 style={{ fontWeight:'bold' }}>Gram stain</h7> : Gram-negative</div>
+            <div style={{ marginLeft: '36%'}}><h7 style={{ fontWeight:'bold' }}>Shape</h7> :   Rod-shaped</div>
+            <div style={{ marginLeft: '30%',textalign:'justify' }}> <h7 style={{ fontWeight:'bold' }}>Infection </h7> :  
+            pneumonia with symptoms like cough, 
+            fever, chest pain, and shortness of breath
+                      </div>
+                      
+          </div>
+          <div style={{ textalign:'justify', color: 'purple' }}>  non-motile bacterium known for its 
+                   ability to acquire resistance genes through horizontal gene transfer. Of note, 
+                 carbapenem-resistant K. pneumoniae strains are of particular concern. </div>
+      </div>
       </div>
     </div>
+    </Link>
   );
 }
 
