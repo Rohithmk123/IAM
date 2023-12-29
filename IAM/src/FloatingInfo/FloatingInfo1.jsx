@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
 import { Link } from 'react-router-dom';
-
 
 function FloatingInfo1() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [position, setPosition] = useState('200px'); // Initial position
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,40 +32,92 @@ function FloatingInfo1() {
     }
   }, [scrollPosition]);
 
-  return (<Link to="Enterococcus Page">
-    <div id="floatingInfo1" style={{ position: 'absolute', left: position, top: '900px', zIndex: '1', width: '350px', height: '350px', padding: '20px', backgroundColor: 'rgba(240, 240, 240, 0.8)', transition: 'left 0.5s ease-in-out', textAlign: 'center', color: 'black',borderRadius:'50px' }}>
-      {/* Add your additional information content here */}
-      <div>
-        
-        <p style={{  textDecoration: '',textDecorationColorcolor:'black',textAlign: 'center' }}>
-                 <h5 style={{  position: 'absolute', top: '20px', left: '100px' }}
-                         >Enterococcus faecium.</h5> </p>
-                 <img
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const headingStyle = {
+    position: 'absolute',
+    top: '10px',
+    left: '105px',
+    zIndex: '1',
+    color: isHovered ? 'black' : 'white', // Change color on hover
+    transition: 'color 0.3s ease-in-out',
+  };
+
+  return (
+    <Link to="Enterococcus Page">
+      <div
+        id="floatingInfo1"
+        style={{
+          position: 'absolute',
+          left: position,
+          top: '900px',
+          zIndex: '1',
+          width: '350px',
+          height: '350px',
+          padding: '20px',
+          backgroundColor: 'rgba(240, 240, 240, 0.8)',
+          transition: 'left 0.5s ease-in-out',
+          textAlign: 'center',
+          color: 'black',
+          borderRadius: '50px',
+          overflow: 'hidden'
+        }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {/* Add your additional information content here */}
+        <div style={{ position: 'relative' }}>
+          <div
+            style={{
+              position: 'absolute',
+              top: '-30px',
+              left: '-15px',
+              width: '120px',
+              height: '120px',
+              borderRadius: '50%',
+              backgroundColor: isHovered ? 'purple' : '#8c0303', // Change color on hover
+              zIndex: '-1'
+            }}
+          ></div>
+          <div
+            style={{
+              position: 'absolute',
+              top: '0',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '320px',
+              height: '50px',
+              backgroundColor: isHovered ? 'purple' : '#8c0303', // Change color on hover
+              zIndex: '-1',
+              borderRadius: '10px'
+            }}
+          ></div>
+          <div>
+            <p style={{ textDecoration: '', color: 'white', textAlign: 'center' }}>
+              <h5 style={headingStyle}>Enterococcus faecium.</h5>
+            </p>
+          </div>
+          <img
             src='/e facum.jpg' // Replace with the actual path to your image
             alt="Enterococcus Image"
-            style={{ width: '90px', height: '90px', position: 'absolute', top: '20px', left: '10px' }}
+            style={{ width: '90px', height: '90px', position: 'absolute', top: '-15px', left: '-2px', zIndex: '1' }}
           />
-      
-       <div style={{ fontSize: '15px', paddingTop: '10px' }}>
-      <div style={{ marginLeft: '25%' }}><h7 style={{ fontWeight:'bold' }}>Gram stain</h7> : Gram Positive</div>
-            <div style={{ marginLeft: '26%'}}><h7 style={{ fontWeight:'bold' }}>Shape</h7> :   Spherical</div>
-            <div style={{ marginLeft: '30%',textalign:'justify' }}> <h7 style={{ fontWeight:'bold' }}>Infection </h7> :  nosocomial
-                   infections such as bacteremia, endocarditis,
-                  and urinary tract and surgical wound infections.
-                      </div>
-                      
+          <div style={{ position: 'absolute', textAlign: 'justify', top: '90px', zIndex: '1' }}>
+            Enterococcus faecium is a Gram-positive, spherical bacterium associated with nosocomial
+            infections such as bacteremia, endocarditis, and urinary tract and surgical wound infections.
+            Notably, in February 2017, the World Health Organization (WHO) designated
+            vancomycin-resistant E. faecium as a high-priority pathogen due to a significant increase in its
+            prevalence.
           </div>
-          <div style={{ textalign:'justify' }}>Notably, in February 2017, the World Health Organization (WHO) designated
-                            vancomycin-resistant E. faecium as a high-priority pathogen due to a significant increase in its
-                           prevalence.</div>
-
-
-            
-     
-        
+        </div>
       </div>
-    </div>
-  </Link>
+    </Link>
   );
 }
 
