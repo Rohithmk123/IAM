@@ -71,7 +71,7 @@ function FloatingInfo1() {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Add your additional information content here */}
+        
         <div style={{ position: 'relative' }}>
           <div
             style={{
@@ -81,7 +81,7 @@ function FloatingInfo1() {
               width: '120px',
               height: '120px',
               borderRadius: '50%',
-              backgroundColor: isHovered ? 'purple' : '#8c0303', // Change color on hover
+              backgroundColor: isHovered ? '#BFD4D5' : '#C1BFBF', // Change color on hover
               zIndex: '-1'
             }}
           ></div>
@@ -93,13 +93,13 @@ function FloatingInfo1() {
               transform: 'translateX(-50%)',
               width: '320px',
               height: '50px',
-              backgroundColor: isHovered ? 'purple' : '#8c0303', // Change color on hover
+              backgroundColor: isHovered ? '#BFD4D5' : '#C1BFBF', // Change color on hover
               zIndex: '-1',
               borderRadius: '10px'
             }}
           ></div>
           <div>
-            <p style={{ textDecoration: '', color: 'white', textAlign: 'center' }}>
+            <p style={{ textDecoration: '', color: 'white', textAlign: 'justify' }}>
               <h5 style={headingStyle}>Enterococcus faecium.</h5>
             </p>
           </div>
