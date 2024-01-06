@@ -1,92 +1,126 @@
-// EnterococcusFaeciumPage.jsx
-import React from 'react';
+import React, { useState } from 'react';
 
-function EnterococcusPage() {
-  return (<div>
-   <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ background: '#D6D4D4' }}>
-   <div className="container-fluid" style={{ height: '60px' }}>
-     <a className="navbar-brand" href="#" style={{ marginRight: '650px', fontSize: '24px' }}>
-       <img src="/logo.PNG" alt="Logo" style={{ width: '70px', height: '60px', marginRight: '10px' }} />
-     </a>
-     <button
-       className="navbar-toggler"
-       type="button"
-       data-bs-toggle="collapse"
-       data-bs-target="#navbarNavDropdown"
-       aria-controls="navbarNavDropdown"
-       aria-expanded="false"
-       aria-label="Toggle navigation"
-     >
-       <span className="navbar-toggler-icon"></span>
-     </button>
-     <div className="collapse navbar-collapse" id="navbarNavDropdown">
-       <ul className="navbar-nav">
-         <li className="nav-item">
-           <a className="nav-link active" aria-current="page" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '20px' }}>
-             Home
-           </a>
-         </li>
-         <li className="nav-item">
-           <a className="nav-link" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '20px' }}>
-             Features
-           </a>
-         </li>
-         <li className="nav-item dropdown">
-           <a
-             className="nav-link dropdown-toggle"
-             href="#"
-             role="button"
-             data-bs-toggle="dropdown"
-             aria-expanded="false"
-             style={{ color: '#4D0355', fontSize: '20px', marginRight: '30px' }}
-           >
-             Quick Access
-           </a>
-           <ul className="dropdown-menu">
-             <li>
-               <a className="dropdown-item" href="#">
-                 1. Enterococcus faecium
-               </a>
-             </li>
-             <li>
-               <a className="dropdown-item" href="#">
-                 2. Enterococcus faecium
-               </a>
-             </li>
-             <li>
-               <a className="dropdown-item" href="#">
-                 3. Enterococcus faecium
-               </a>
-             </li>
-             <li>
-               <a className="dropdown-item" href="#">
-                 4. Enterococcus faecium
-               </a>
-             </li>
-             <li>
-               <a className="dropdown-item" href="#">
-                 5. Enterococcus faecium
-               </a>
-             </li>
-             <li>
-               <a className="dropdown-item" href="#">
-                 6. Enterococcus faecium
-               </a>
-             </li>
-           </ul>
-         </li>
-         <li className="nav-item">
-           <a className="nav-link" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '30px',}}>
-             About
-           </a>
-         </li>
-       </ul>
-     </div>
-   </div></nav>
+const IndiaMap = () => {
+  const [scale, setScale] = useState(1.0);
+  const [isMouseInside, setIsMouseInside] = useState(false);
 
+  const handleZoom = (factor) => {
+    setScale((prevScale) => Math.max(0.1, prevScale + factor));
+  };
 
-   <div style={{width:'30%',heirht :'50%'}}>
-      <svg baseprofile="tiny" fill="#ececec" height="1136" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1" version="1.2" viewbox="0 0 1000 1136" width="1000" xmlns="http://www.w3.org/2000/svg">
+  const handleWheel = (e) => {
+    e.preventDefault();
+    if (isMouseInside) {
+      const zoomFactor = e.deltaY > 0 ? -0.1 : 0.1;
+      handleZoom(zoomFactor);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingTop: '300px',
+        overflow: 'hidden', // Prevent scrolling of the frame
+      }}
+      onMouseEnter={() => setIsMouseInside(true)}
+      onMouseLeave={() => setIsMouseInside(false)}
+    >
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '300px' }} onWheel={handleWheel}>
+      <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ background: '#D6D4D4' }}>
+      <div className="container-fluid" style={{ height: '60px' }}>
+        <a className="navbar-brand" href="#" style={{ marginRight: '650px', fontSize: '24px' }}>
+          <img src="/logo.PNG" alt="Logo" style={{ width: '70px', height: '60px', marginRight: '10px' }} />
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <a className="nav-link active" aria-current="page" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '20px' }}>
+                Home
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '20px' }}>
+                Features
+              </a>
+            </li>
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style={{ color: '#4D0355', fontSize: '20px', marginRight: '30px' }}
+              >
+                Quick Access
+              </a>
+              <ul className="dropdown-menu">
+                <li>
+                  <a className="dropdown-item" href="#">
+                    1. Enterococcus faecium
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    2. Enterococcus faecium
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    3. Enterococcus faecium
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    4. Enterococcus faecium
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    5. Enterococcus faecium
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    6. Enterococcus faecium
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '30px',}}>
+                About
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+  
+
+      <div
+        style={{ width: '400px', height: '500px', overflow: 'hidden', border: '1px solid black' }}
+        onWheel={handleWheel}
+      >
+        <svg width="100%" height="100%" viewBox="0 0 400 500">
+          <rect x="0" y="0" width="400" height="500" fill="none" stroke="black" strokeWidth="2" />
+          <g transform={`scale(${scale})`}>
+       <svg baseprofile="tiny" fill="#ececec" height="1136" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1" version="1.2" viewbox="0 0 1000 1136" width="1000" xmlns="http://www.w3.org/2000/svg">
  <g id="combined">
   <path d="M877.3 1118.2l-0.2 0.4 0.3 0.5 0.7-0.1 0.4 1-0.1 0.4 0.3 0.9 0.1 1-0.1 1.2 0.4 0.3 0.6 1 0.1 1.3-0.2 0.4 0.5 0.5 0.2 0.7-0.6 0.7-0.3 0.7 0.2 0.4-0.6 0.3 0.1 0.7-0.2 0.5 0 0.7 0.5 0.3-0.4 1.2-0.4 0.3-0.6-0.7-0.5 0-0.3 0.5 0.1 0.7-0.7 0.9-0.7-0.3 0.2-1.5-0.4-0.2-0.5-0.8 0.3-0.4-0.7-0.6 0.2-0.6-0.6-0.9-0.4 0-0.3-0.6 0.3-0.4-0.2-0.8-0.5-0.3-0.3-0.8-0.5 0.1-0.3-0.7-0.4-0.3-0.6 0.2-0.1-1 0.1-1.3-0.3-0.2-0.2-1.4 0.7-0.5 0-1.2 0.4-0.5 0.9-0.1 0.7 0.2 0.7-0.8 1.8-0.1 0.1-0.5 0.6-0.3 0.7-0.1z m-4.6-7l0.3 0.8 0.1 0.8 1.1 0.8-0.1 0.5-0.4 0.4-0.6 1.3-0.6 0.2-0.9 0.7-0.4 0.8-0.7 0.6-0.7-0.9 0.2-0.7-0.3-0.6 0.4-0.5-0.2-1.4 1.1-0.7 1.5-0.4 0-1.5 0.2-0.2z m-11.4-20l1 0.6-0.2 1.1 0.6 0.5 0.3-0.3 1.1 1.1 0.4 1.4-0.4 0.8-0.7-0.9-0.8-0.3-0.7 0.2-0.7 0.7-0.7-0.3-0.4-0.4 0.1-0.8-1-0.6-0.2-0.7 0.4-0.5 0-0.5 0.4-0.7 0.7 0.1 0.8-0.5z m5.7-0.2l0.6 0.2 0.7 1.1-0.2 2-0.2 0.2-2.2-2 1.2-1 0.1-0.5z m1.1-3.3l0.4 0.5 0 1.5 0.4 0.8-0.3 0.2-0.7-1 0.3-0.5-0.4-0.3-0.3-1 0.6-0.2z m-1.8-3.7l0.6 0.2 0.1 1-0.7 0.9-0.5 0.2-0.2 0.7 0.7 0.9 0.2 0.7 0.6 0.4 0.1 0.7-0.4 1-1.1 0.1 0 1.2-0.6 0-0.1-1.3 1.3-0.6 0.1-0.7-0.4-0.3-1.1 1.1 0-0.9-0.9-1.6-0.1-1.7 0.7-0.4 0.5-0.4 0.1-0.9 1.1-0.3z m-9.9-1.1l0.6 1.2-0.5 0.3-0.6-0.8 0.5-0.7z m-3.7-3.2l0.5 0.4-0.4 1.2-0.1 1.1 0.9 1.2 1.4 0.7 0.4 0.4-0.4 0.7-1-0.3-1.4-0.7-0.8-0.9-0.5-0.9 0-1.2 0.3-1.1 1.1-0.6z m-2.9-4l0.5 0.4-0.2 0.8-0.6-0.5 0.3-0.7z m19.6-3.5l0.2 1.5 0.4 0.2 0.3 2-0.6 0 0-1.7-0.5-1 0.2-1z m-28.3-23.2l0.9 0.9 0.4 0.9 0.2 1-0.3 0.9-0.4 0.5-0.8 0.2-0.6-0.3-1.3 0.1-0.4-0.8 0-2.3 1.5 0 0.8-1.1z m-9.3-57.3l1.5 1.2 0.1 1.8 0.9 0.8-0.2 1.6 0.5 1.2 0 0.8-0.7 0.5 0.1 0.4-0.9 0.7-0.4 0.9 0.1 0.7 0.7 0.2 0.1 0.4-1.2 1.6-0.1 0.4-1.1 0.2-0.6-0.2-0.6-0.6-1-0.5-0.5 0.1-0.6 0.5-0.6-0.4 0.9-1.4 0.4-1.1-0.5-1.2-0.4-0.6-0.5 0 0.1-1.8-0.2-0.7-0.1-1.5 0.7 0.1 0.6-0.3 0.6-1.2 0.9-0.6 0.1-0.8 0.7-0.3 0.4-0.6 0.8-0.3z m4.3-21.3l0.9 0.7 0.6 1.9-0.7 1.4 0.9 0.2 0 0.7-1.8 0.8-1.3 0-0.7-0.7 0.4-0.5-0.1-0.7 1.2-0.2 0-1.2-0.4-0.6 0.1-1 0.6-1 0.3 0.2z m-1-2.8l0.2 0.8-0.6-0.1 0.4-0.7z m-13.4-0.1l0.7 0 1 0.3 0 1 0.2 0.7-0.5 0.6-0.4-0.3-1.1-0.1-0.3-0.6 0.4-1.6z m10.9-0.4l0.2 0.3 0.8 0.1-0.1 0.6-0.4 0.5-0.5 0-0.2-1.2 0.2-0.3z m16.5-8.4l0.4 0.3 1-0.3 0.3 0.3-0.7 0.8-1.2-0.6 0.2-0.5z m-14.5-4.6l0.3 1.1-0.3 0.2 0-1.3z m12.7-2l0.5-0.3 0.7 0.5 0.1 1 1 1.8 0.6 1.8-0.3 0.4-0.7-0.1-0.1-0.5-1.1-1.7-0.6 0.1-0.4-1.1-0.9-0.2-0.1-0.7 0.7-0.3 0.6-0.7z m0.8-2.6l0.4 0.1-0.2 2.1-0.3 0-1-0.9 0-1.3 1.1 0z m1.2-1.7l-0.1 0.6 0.4 0.5 0 1 0.6 0.7 0 0.6-0.4 0.5-0.6-0.9-0.6-0.2 0-1.1-1-0.2-0.5-0.3-0.3-0.7 0.3-0.3 1 0.4 1.2-0.6z m1.4-1.9l0.6 0.6 0.3 1.6-0.2 0.6 0.1 0.8-0.3 0.7-0.5 0-1.1-1.6 0.7-2 0.4-0.7z m-12.6-0.8l0.2 0.2 0.3 2.1 0.8-0.5 0.7 0.2-0.1 0.8-0.6 1.5-0.1 0.8 0.6 0.6 0.8 1.4-0.5 0.4-0.7-0.5 0.6 1.6-1.1 0.5-0.3 0.8 0.5 1.8 0.5-1.2 1-0.2 0.4 0.5-0.3 1.1 0.3 0.8-1.1 5.3-0.5 0.3-0.8 0.1-0.5 0.5-0.1 0.9-0.5 0.6-0.6-0.2 0 0.8 0.8 0 0.9-1.2 0.9-0.3 0.4 0.3-0.1 2-0.8 1.8-0.2 1.1 0.2 0.3-0.7 1-0.4-0.6-1.1 0-0.6-0.6 0.1-1-0.8-0.6-0.7-0.9 0.1-1.4-0.5-1 0.2-0.9-0.4-1-0.5 0.1-0.4 0.8-0.3-1 0.1-1.8-0.4-1.9-0.7 0.1-0.4-0.8 0.4-0.8 0.1-0.9 0.4-0.3 0.1-0.6 0.8-0.7 0.5 0.5 0.2 1.4 0.9 0.6-0.2-1.8 0.2-0.6 0-2.4 0.5-1.9-0.2-0.3 0.1-1.1 0.3-0.7 0.5-2 1.4-1.9 0.4 0z m1.1-0.3l0.2 0.3 0.8 0.2 0.2 0.9-0.1 0.7-1.4-0.2 0-1.4 0.3-0.5z m5.8-0.5l0.4 0.9-1.5-0.2 1.1-0.7z m6-0.2l0.3 0.9-0.1 0.5-0.6-0.2 0.2-1 0.2-0.2z m-12.5-1.2l0.4 0.1-0.4 1.7-0.3-0.8 0.3-1z m7.8 0.6l-0.6 0.7-0.7-0.7 0.4-0.4 0.4 0.4 0.5 0z m-5.6-1.1l0.6 0.2 0.5-0.2 0.7 0.4 1-0.2 0.4 0.2 0.6 1.4-1 0.5 0.5 0.7 0.1 1.1-0.8-0.3-0.1 1.4-0.4-0.2-1.3 2.1-0.2 0.9-1 0.7-0.9-0.8 0.1-0.5 0.8-2.7 0.2-0.9-0.1-0.9-0.5-0.1-0.4-0.5 0.4-1 0.4 0.4 0.6-0.8-0.2-0.9z m36.3-0.3l0.6 0.9 0.7 0.4-0.2 0.5 0.3 1.1-1.3 0-0.5-0.3-0.4-1.4 0.3-0.8 0.5-0.4z m-33.7-3.1l0.7 0.1 0.6 0.5-0.8 0.5-0.6-0.6 0.1-0.5z m3.5-0.2l-0.4 0.5 0 0.5-0.4 0.9-0.4-0.2 0.3-0.7 0.2-1.2 0.5-0.3 0.2 0.5z m-8.3-14.5l0.1 1.9-0.7-0.8 0.6-1.1z m6.4-3l0.4 0.2-0.1 0.9 0.7 0 0.5 2 0.4 0.6-0.7 1 0.2 0.4 0.7 0.5 0.1 0.9 0.5 0.4-0.5 0.7 0.1 0.6-0.3 1.3 0 1.2 0.1 1.1 0.5 1.2-0.5 2-0.5-0.4-0.4 0.6 0.5 0.6-0.2 0.5-0.7 0.4-0.2 0.9-0.7-0.6-0.6 0.4-1.7-0.4 0.3 1.1 1.2 1.5 0.5 1.1-0.3 0.3-0.7 0-0.9 0.4-0.8-0.4-0.4 0.3-0.8-0.4-0.9 0.6-0.9 0-0.7-1.3-0.1-2.9 0.3-1.1-0.2-0.7 0.3-0.7-0.5-0.8 0.2-0.9 0.3-0.6-0.1-1.2-0.4-0.5 0.5-0.4 0.2-0.7 0.7-0.1-0.1-0.5 0.4-0.6-0.5-0.9 0.4-0.1 0-0.8-0.3-0.7-0.4-1.6 0.1-1.4 0.5 0 1.1-1.2 0.8 0 0-0.9 1.1-0.2 0.1 0.3 0.2 0 0.2-0.2 0.1 0.2-0.1 0.3 0 0.1 0.1 0 1.1-0.3 0.6-0.4 0.2-0.7z m-6.9-2.7l0.8 0.4 0 3.2-0.2 0.9-0.8 1-0.1 0.6-0.6 0.8-0.6-1.5-0.1-0.8 0.5-0.7 0.1-1.3 0.4-0.8-0.3-0.4 0.5-1.3 0.4-0.1z m10.6-0.2l-0.5 0.4-0.7 1.1-0.4 0 0-1.2 0.6 0.3 1-0.6z m-2.8-0.9l0.4-0.1 0.2 1-0.8-0.1 0.2-0.8z m46-15.5l0.1 0.8-0.7 0.4-0.2-0.6 0.8-0.6z m-42.4-3.8l0.3 0.9 0.1 1.5-0.2 0.7-0.1 0.9 0.1 1.4 0.5 0.5 0.4 1.5 0.6 0.7-0.3 0.7-0.6-0.2-0.5 0.2 0-1-0.4 0.2-0.8-0.3-0.9 0.6-0.5-0.8-0.3 0.5 0.2 0.6 0.6 0.1 1.2 0.6 1.1 1.7 0.5-0.1-0.1 1-0.8 2 0.1 1.3-0.2 0.4 0.2 1.3-0.2 0.8-0.8 1.3-0.6 0.2-0.6-0.1-0.4 0.5-0.8-0.9-0.3-0.8-0.4 0.3-0.4 1.1 0.1 0.8 1.1 0.8-0.4 0.7-0.6-0.2-0.1-0.7-0.9 0-0.2 0.7 0.1 0.6-0.7 0.4 0 1.1 0.5 0 0 0.7-0.5 0.2-0.2 0-0.3 0-0.1 0 0.1-0.3 0-0.2-1.4-0.3-0.3-0.5 0.3-0.8-0.3-0.5 0-1 0.7-0.1 0.2-0.6-1-0.4 0.2-1.3 0-1.4 0.8-0.4-0.3-1 1.1-0.6-1.1-0.3 0.7-2.1-0.1-0.8 0.7-0.1 0.2-0.6-0.6-0.1-0.5-0.6 0.7-0.9-0.6-0.2 0-0.7 0.3-0.4 0.1-1 0.5-0.7-0.2-0.7 0.9-0.3 0.4-0.5-0.4-0.6 0.1-1 0.9-0.1 0.1-0.6 0.8-0.2-0.5-1 0.2-0.2 1.5-0.3 0.4 0.6 0.6-0.3-0.4-0.6 0.4-0.5 0.8 0.6 0.1-0.8 0.4 0z m-0.5-3.6l0.3 0.5-0.3 0.6-1 0-0.2-0.7 1.2-0.4z m12-16.9l0.4 1.2-0.2 1-0.2 0.9-0.4-0.2 0.3-0.8-0.4-1.9 0.5-0.2z m9.4-26.3l-0.3 1-0.7 0 0.4-0.9 0.6-0.1z" id="1" name="Andaman and Nicobar">
   </path>
@@ -171,9 +205,14 @@ function EnterococcusPage() {
   <circle class="35.562067562117846|95.95035972595234" cx="949.1" cy="65.3" id="2">
   </circle>
  </g>
-</svg></div>
-   </div>
-  );
-}
+</svg>
+        </g>
+      </svg>
+    </div>
+    </div>
+    </div>
 
-export default EnterococcusPage;
+  );
+};
+
+export default IndiaMap;
