@@ -114,7 +114,7 @@ const IndiaMap = () => {
   
 
       <div
-        style={{ width: '400px', height: '500px', overflow: 'hidden', border: '1px solid black' }}
+        style={{ width: '400px', height: '500px', overflow: 'hidden', border: '1px solid black',marginBottom:'300px' }}
         onWheel={handleWheel}
       >
         <svg width="100%" height="100%" viewBox="0 0 400 500">
