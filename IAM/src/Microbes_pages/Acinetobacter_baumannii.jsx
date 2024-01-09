@@ -16,18 +16,27 @@ const Acinetobacter_baumannii = () => {
     height: '100vh',
   };
 
-const verticalLastLineStyle ={
+const verticalLine1Style ={
   width: '0px',
   marginTop:'10%',
 }
 
-  const verticalLineStyle = {
+  const verticalLine2Style = {
     width: '2px',
     height: '40%',
     backgroundColor: 'black',
     marginTop:'10%',
-    marginLeft: '22%',
-    marginRight:'25%'
+    marginLeft: '33%',
+    
+   
+  };
+  const verticalLine3Style = {
+    width: '2px',
+    height: '40%',
+    backgroundColor: 'black',
+    marginTop:'10%',
+    marginLeft: '33%',
+  
    
   };
   
@@ -184,9 +193,9 @@ const verticalLastLineStyle ={
     </div>
 
     <div style={containerStyle}>
-      <div style={verticalLastLineStyle}><p style={{fontSize:'30px',marginLeft:'100px',color:'purple'}}>Typing</p></div>
-      <div style={verticalLineStyle}><p style={{fontSize:'30px',marginLeft:'100px',color:'purple'}}>Typing</p></div>
-      <div style={verticalLineStyle}><p style={{fontSize:'30px',marginLeft:'100px',color:'purple'}}>MLST</p></div>
+      <div style={verticalLine1Style}><p style={{fontSize:'30px',marginLeft:'100px',color:'purple'}}>Virulance</p></div>
+      <div style={verticalLine2Style}><p style={{fontSize:'30px',marginLeft:'100px',color:'purple'}}>Typing</p></div>
+      <div style={verticalLine3Style}><p style={{fontSize:'30px',marginLeft:'100px',color:'purple'}}>MLST</p></div>
       
     </div>
 
