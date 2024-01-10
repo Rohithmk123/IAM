@@ -2,7 +2,7 @@ import React from 'react';
 
 function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ background: '#D6D4D4' }}>
+    <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ background: '#07beb8' }}>
       <div className="container-fluid" style={{ height: '60px' }}>
         <a className="navbar-brand" href="#" style={{ marginRight: '650px', fontSize: '24px' }}>
           <img src="/logo.PNG" alt="Logo" style={{ width: '70px', height: '60px', marginRight: '10px' }} />
