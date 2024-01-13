@@ -95,10 +95,12 @@ function FloatingInfo2() {
               borderRadius: '10px'
             }}
           ></div>
-          <div>
-            <p style={{ cursor: 'pointer', textDecoration: '', textAlign: 'center', }}>
-            <h5 style={{ position: 'absolute', top: '12px', left: '100px',  }}>Staphylococcus aureus</h5>
-            </p>
+          <div>      
+      <div>
+
+      <p></p>
+            <h5 style={{ position: 'absolute', top: '12px', left: '100px',cursor: 'pointer', textDecoration: '', textAlign: 'center',  }}>Staphylococcus aureus</h5>
+            </div>
           </div>
           <img
             src='/e facum.jpg' // Replace with the actual path to your image

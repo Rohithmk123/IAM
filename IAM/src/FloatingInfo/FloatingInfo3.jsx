@@ -99,7 +99,7 @@ function FloatingInfo3() {
             }}
           ></div>
           <div>
-            <p> <h5 style={{position:'absolute',textAlign:'',left:'100px',top:'10px'}}>Klebsiella pneumoniae</h5></p>
+             <h5 style={{position:'absolute',textAlign:'',left:'100px',top:'10px'}}>Klebsiella pneumoniae</h5>
              
             
           </div>

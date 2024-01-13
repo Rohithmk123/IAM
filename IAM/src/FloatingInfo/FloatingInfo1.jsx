@@ -99,12 +99,11 @@ function FloatingInfo1() {
             }}
           ></div>
           <div>
-            <p style={{ textDecoration: '', color: 'white', textAlign: 'justify' }}>
+          
               <h5 style={headingStyle}>Enterococcus faecium.</h5>
-            </p>
           </div>
           <img
-            src='/e facum.jpg' // Replace with the actual path to your image
+            src='/e facum.jpg' 
             alt="Enterococcus Image"
             style={{ width: '90px', height: '90px', position: 'absolute', top: '-15px', left: '-2px', zIndex: '1' }}
           />
