@@ -1,12 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Navbar() {
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [scrollingUp, setScrollingUp] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      setScrollingUp(prevScrollPos > currentScrollPos);
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [prevScrollPos]);
+
+  const navbarStyle = {
+    height: scrollingUp || prevScrollPos === 0 ? '100px' : '60px',
+    transition: 'height 0.3s ease',
+    background: '#07beb8',
+  };
+
+  const h5Style = {
+    display: scrollingUp || prevScrollPos === 0 ? 'block' : 'none',
+    marginRight: scrollingUp ? '0px' : '70px',
+    fontSize: '25px',
+    transition: 'margin-right 0.3s ease, font-size 0.3s ease, display 0.3s ease',
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ background: '#07beb8' }}>
-      <div className="container-fluid" style={{ height: '60px' }}>
-        <a className="navbar-brand" href="#" style={{ marginRight: '650px', fontSize: '24px' }}>
+    <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={navbarStyle}>
+      <div className="container-fluid">
+        <a className="navbar-brand" href="#" style={{ marginRight: '60px', fontSize: '24px' }}>
           <img src="/logo.PNG" alt="Logo" style={{ width: '70px', height: '60px', marginRight: '10px' }} />
         </a>
+        <h5 style={h5Style}>INDIAN ANTIMICROBIAL RESISTANCE DATABASE</h5>
         <button
           className="navbar-toggler"
           type="button"
@@ -19,7 +50,7 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul className="navbar-nav">
+        <ul className="navbar-nav">
             <li className="nav-item">
               <a className="nav-link active" aria-current="page" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '20px' }}>
                 Home
