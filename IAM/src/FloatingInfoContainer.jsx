@@ -5,16 +5,19 @@ function FloatingInfoContainer() {
     <div
       style={{
         position: 'absolute',
-        zIndex: '0', // Set a lower zIndex
+        zIndex: '0',
         width: '70%',
-        height: '200vh', // Adjust height as needed
-        backgroundColor: '#D6D4D4', // Set your desired background color
+        height: '200vh',
+        backgroundColor: '#D6D4D4',
         overflow: 'hidden',
         left: '50%',
-        transform: 'translateX(-50%)', // Center horizontally
+        transform: 'translateX(-50%)',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundImage: 'url("/img1.jpg")', // Replace with the path to your image
+        backgroundSize: 'cover', // Ensure the image covers the container
+        backgroundPosition: 'center', // Center the image
       }}
     >
       {/* Content of the container */}
