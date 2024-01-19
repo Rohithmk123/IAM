@@ -83,6 +83,7 @@ function FloatingInfo5() {
               zIndex: '-1'
             }}
           ></div>
+          {/*Change color of rectangle*/} 
           <div
             style={{
               position: 'absolute',
@@ -90,8 +91,8 @@ function FloatingInfo5() {
               left: '50%',
               transform: 'translateX(-50%)',
               width: '320px',
-              height: '80px',
-              backgroundColor: isHovered ? 'purple' : '#8c0303', // Change color on hover
+              height: '50px',
+              backgroundColor: isHovered ? 'purple' : '#8c0303', 
               zIndex: '-1',
               borderRadius: '10px'
             }}

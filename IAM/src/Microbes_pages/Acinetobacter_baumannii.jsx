@@ -1,8 +1,107 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import Navbar from '../Navbar';
+import Papa from 'papaparse';
 
 const Acinetobacter_baumannii = () => {
-  const [scale, setScale] = useState(0.6); // Adjust the initial scale as needed
+  const [latLonData, setLatLonData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          'https://raw.githubusercontent.com/Rohithmk123/IAM/main/Acinetobacter_metadata.csv'
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch CSV data');
+        }
+
+        const csvText = await response.text();
+
+        Papa.parse(csvText, {
+          complete: (result) => {
+            const extractedData = result.data
+              .slice(0, 37)
+              .map((row) => row.lat_lon);
+
+            const processedData = extractedData.map((item) => {
+              const [lat, latDirection, lon, lonDirection] = item.split(' ');
+
+              const latNumeric = parseFloat(lat);
+              const lonNumeric = parseFloat(lon);
+
+              const latSign = latDirection === 'N' ? 1 : -1;
+              const lonSign = lonDirection === 'E' ? 1 : -1;
+
+              const finalLat = latNumeric * latSign;
+              const finalLon = lonNumeric * lonSign;
+
+              return { lat: finalLat, lon: finalLon };
+            });
+
+            setLatLonData(processedData);
+          },
+          header: true,
+        });
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const [scale, setScale] = useState(0.6);
+  const [circleData, setCircleData] = useState([]);
+
+  useEffect(() => {
+    // Calculate the frequency of each coordinate
+    const coordinateFrequency = {};
+    latLonData.forEach(({ lat, lon }) => {
+      const key = `${lat}|${lon}`;
+      coordinateFrequency[key] = (coordinateFrequency[key] || 0) + 1;
+    });
+
+    const calculateColor = (frequency, radius) => {
+      // Adjust these two colors as needed for your gradient
+      const startColor = [173, 216, 230]; // Light color
+      const endColor = [0, 0, 139]; // Dark color
+  
+      // Interpolate colors based on the radius and frequency
+      const interpolateColor = (start, end, ratio) =>
+        start.map((color, index) =>
+          Math.round(color + ratio * (end[index] - color))
+        );
+  
+      const ratio = frequency * 0.1; // Adjust as needed
+      const interpolatedColor = interpolateColor(startColor, endColor, ratio);
+  
+      return `rgb(${interpolatedColor.join(',')})`;
+    };
+
+    // Map coordinates to circle data with adjusted size based on frequency
+    const circles = latLonData.map(({ lat, lon }) => {
+      const key = `${lat}|${lon}`;
+      const frequency = coordinateFrequency[key];
+      const adjustedSize = 0.02 * Math.min(viewBoxWidth, viewBoxHeight) * scale * (1 + frequency * 0.1);
+      const circleColor = calculateColor(frequency, adjustedSize);            
+
+                                  {/*coordinate marker*/}
+      return {
+        cx: ((lon - minLongitude) / (maxLongitude - minLongitude)) * mapWidth,
+        cy: ((maxLatitude - lat) / (maxLatitude - minLatitude)) * mapHeight,
+        r: adjustedSize,
+        fill: circleColor,
+        zIndex: '5',
+        key: `${lat}|${lon}`,
+        
+      };
+    });
+
+    setCircleData(circles);
+  }, [latLonData, scale]);
+
+
 
   const handleZoomIn = () => {
     setScale(scale + 0.2);
@@ -42,15 +141,16 @@ const verticalLine1Style ={
   
   const viewBoxWidth = 650;
   const viewBoxHeight = 700;
+  const mapWidth = 1025;
+  const mapHeight = 1100;
+  const minLatitude = 8.4;
+  const maxLatitude = 37.6;
+  const minLongitude = 68.7;
+  const maxLongitude = 97.4;
+
+
   const rectangleWidth = 650;
   const rectangleHeight = 700;
-
-  const circleCoordinates = {
-    cx: 0.8629 * viewBoxWidth * scale,
-    cy: 0.4486 * viewBoxHeight * scale,
-    r: 0.02 * Math.min(viewBoxWidth, viewBoxHeight) * scale,
-    fill: 'red',
-  };
 
   return (
     <div>
@@ -89,7 +189,7 @@ const verticalLine1Style ={
             stroke="black"
             strokeWidth="2"
           />
-          <circle {...circleCoordinates} />
+         
           <g transform={`scale(${scale * (rectangleWidth / viewBoxWidth)})`}>
   
          
@@ -178,7 +278,10 @@ const verticalLine1Style ={
   </circle>
   <circle class="35.562067562117846|95.95035972595234" cx="949.1" cy="65.3" id="2">
   </circle>
-  
+  {/* Render circles based on circleData */}
+  {circleData.map(({ cx, cy, r, fill, key }) => (
+          <circle key={key} cx={cx} cy={cy} r={r} fill={fill} stroke="none"/>
+        ))}
  </g>
 </svg>
 </g>

@@ -69,6 +69,9 @@ function FloatingInfo3() {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
+          <p> 
+        
+        </p>
         {/* Add your additional information content here */}
         <div style={{ position: 'relative' }}>
                                       
