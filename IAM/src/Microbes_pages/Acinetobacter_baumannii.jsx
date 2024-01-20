@@ -1,9 +1,12 @@
 import React, { useState ,useEffect} from 'react';
-import Navbar from '../Navbar';
+import Navbar2 from './Navbar2';
 import Papa from 'papaparse';
 
 const Acinetobacter_baumannii = () => {
   const [latLonData, setLatLonData] = useState([]);
+  const [scale, setScale] = useState(0.6);
+  const [circleData, setCircleData] = useState([]);
+  const [hoveredCoordinate, setHoveredCoordinate] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,8 +54,7 @@ const Acinetobacter_baumannii = () => {
     fetchData();
   }, []);
 
-  const [scale, setScale] = useState(0.6);
-  const [circleData, setCircleData] = useState([]);
+ 
 
   useEffect(() => {
     // Calculate the frequency of each coordinate
@@ -62,44 +64,26 @@ const Acinetobacter_baumannii = () => {
       coordinateFrequency[key] = (coordinateFrequency[key] || 0) + 1;
     });
 
-    const calculateColor = (frequency, radius) => {
-      // Adjust these two colors as needed for your gradient
-      const startColor = [173, 216, 230]; // Light color
-      const endColor = [0, 0, 139]; // Dark color
-  
-      // Interpolate colors based on the radius and frequency
-      const interpolateColor = (start, end, ratio) =>
-        start.map((color, index) =>
-          Math.round(color + ratio * (end[index] - color))
-        );
-  
-      const ratio = frequency * 0.1; // Adjust as needed
-      const interpolatedColor = interpolateColor(startColor, endColor, ratio);
-  
-      return `rgb(${interpolatedColor.join(',')})`;
-    };
-
-    // Map coordinates to circle data with adjusted size based on frequency
     const circles = latLonData.map(({ lat, lon }) => {
       const key = `${lat}|${lon}`;
       const frequency = coordinateFrequency[key];
-      const adjustedSize = 0.02 * Math.min(viewBoxWidth, viewBoxHeight) * scale * (1 + frequency * 0.1);
-      const circleColor = calculateColor(frequency, adjustedSize);            
-
-                                  {/*coordinate marker*/}
+      const adjustedSize = 10; // Adjust the constant size as needed
+      const circleColor = calculateColor(frequency);
       return {
         cx: ((lon - minLongitude) / (maxLongitude - minLongitude)) * mapWidth,
         cy: ((maxLatitude - lat) / (maxLatitude - minLatitude)) * mapHeight,
         r: adjustedSize,
         fill: circleColor,
         zIndex: '5',
-        key: `${lat}|${lon}`,
-        
+        key,
       };
     });
-
+  
     setCircleData(circles);
   }, [latLonData, scale]);
+
+
+    
 
 
 
@@ -110,6 +94,11 @@ const Acinetobacter_baumannii = () => {
   const handleZoomOut = () => {
     setScale(Math.max(0.6, scale - 0.2));
   };
+
+  const handleCoordinateLeave = () => {
+    setHoveredCoordinate(null);
+  };
+
   const containerStyle = {
     display: 'flex',
     height: '100vh',
@@ -152,6 +141,24 @@ const verticalLine1Style ={
   const rectangleWidth = 650;
   const rectangleHeight = 700;
 
+  
+  const calculateColor = (frequency) => {
+    // Adjust these two colors as needed for your gradient
+    const startColor = [173, 216, 230]; // Light color
+    const endColor = [0, 0, 139]; // Dark color
+
+    // Interpolate colors based on the frequency
+    const interpolateColor = (start, end, ratio) =>
+      start.map((color, index) =>
+        Math.round(color + ratio * (end[index] - color))
+      );
+
+    const ratio = frequency * 0.1; // Adjust as needed
+    const interpolatedColor = interpolateColor(startColor, endColor, ratio);
+
+    return `rgb(${interpolatedColor.join(',')})`;
+  };
+
   return (
     <div>
        <div
@@ -171,8 +178,8 @@ const verticalLine1Style ={
     >
       
     </div>
-   <Navbar></Navbar>
-    <div style={{ width: rectangleHeight, height: rectangleHeight, overflow: 'hidden', marginLeft: '20px',marginTop:'80px' , backgroundColor:'#9B43A5'}}>
+    <Navbar2></Navbar2>
+    <div style={{ width: rectangleHeight, height: rectangleHeight, overflow: 'hidden', marginLeft: '20px',marginTop:'80px' , backgroundColor:'#F3F3F3'}}>
       <div style={{ position: 'relative', overflow: 'hidden',  }}>
         <svg
           width="100%"
@@ -187,13 +194,13 @@ const verticalLine1Style ={
             height={rectangleHeight}
             fill="none"
             stroke="black"
-            strokeWidth="2"
+            strokeWidth="0"
           />
          
           <g transform={`scale(${scale * (rectangleWidth / viewBoxWidth)})`}>
   
          
-          <svg baseprofile="tiny" fill="#ececec" height="1136" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1" version="1.2" viewbox="0 0 1000 1136" width="1000" xmlns="http://www.w3.org/2000/svg">
+          <svg baseprofile="tiny" fill="#C4C4C4" height="1136" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".2" version="1.2" viewbox="0 0 1000 1136" width="1000" xmlns="http://www.w3.org/2000/svg">
  <g id="combined">
 
   <path d="M877.3 1118.2l-0.2 0.4 0.3 0.5 0.7-0.1 0.4 1-0.1 0.4 0.3 0.9 0.1 1-0.1 1.2 0.4 0.3 0.6 1 0.1 1.3-0.2 0.4 0.5 0.5 0.2 0.7-0.6 0.7-0.3 0.7 0.2 0.4-0.6 0.3 0.1 0.7-0.2 0.5 0 0.7 0.5 0.3-0.4 1.2-0.4 0.3-0.6-0.7-0.5 0-0.3 0.5 0.1 0.7-0.7 0.9-0.7-0.3 0.2-1.5-0.4-0.2-0.5-0.8 0.3-0.4-0.7-0.6 0.2-0.6-0.6-0.9-0.4 0-0.3-0.6 0.3-0.4-0.2-0.8-0.5-0.3-0.3-0.8-0.5 0.1-0.3-0.7-0.4-0.3-0.6 0.2-0.1-1 0.1-1.3-0.3-0.2-0.2-1.4 0.7-0.5 0-1.2 0.4-0.5 0.9-0.1 0.7 0.2 0.7-0.8 1.8-0.1 0.1-0.5 0.6-0.3 0.7-0.1z m-4.6-7l0.3 0.8 0.1 0.8 1.1 0.8-0.1 0.5-0.4 0.4-0.6 1.3-0.6 0.2-0.9 0.7-0.4 0.8-0.7 0.6-0.7-0.9 0.2-0.7-0.3-0.6 0.4-0.5-0.2-1.4 1.1-0.7 1.5-0.4 0-1.5 0.2-0.2z m-11.4-20l1 0.6-0.2 1.1 0.6 0.5 0.3-0.3 1.1 1.1 0.4 1.4-0.4 0.8-0.7-0.9-0.8-0.3-0.7 0.2-0.7 0.7-0.7-0.3-0.4-0.4 0.1-0.8-1-0.6-0.2-0.7 0.4-0.5 0-0.5 0.4-0.7 0.7 0.1 0.8-0.5z m5.7-0.2l0.6 0.2 0.7 1.1-0.2 2-0.2 0.2-2.2-2 1.2-1 0.1-0.5z m1.1-3.3l0.4 0.5 0 1.5 0.4 0.8-0.3 0.2-0.7-1 0.3-0.5-0.4-0.3-0.3-1 0.6-0.2z m-1.8-3.7l0.6 0.2 0.1 1-0.7 0.9-0.5 0.2-0.2 0.7 0.7 0.9 0.2 0.7 0.6 0.4 0.1 0.7-0.4 1-1.1 0.1 0 1.2-0.6 0-0.1-1.3 1.3-0.6 0.1-0.7-0.4-0.3-1.1 1.1 0-0.9-0.9-1.6-0.1-1.7 0.7-0.4 0.5-0.4 0.1-0.9 1.1-0.3z m-9.9-1.1l0.6 1.2-0.5 0.3-0.6-0.8 0.5-0.7z m-3.7-3.2l0.5 0.4-0.4 1.2-0.1 1.1 0.9 1.2 1.4 0.7 0.4 0.4-0.4 0.7-1-0.3-1.4-0.7-0.8-0.9-0.5-0.9 0-1.2 0.3-1.1 1.1-0.6z m-2.9-4l0.5 0.4-0.2 0.8-0.6-0.5 0.3-0.7z m19.6-3.5l0.2 1.5 0.4 0.2 0.3 2-0.6 0 0-1.7-0.5-1 0.2-1z m-28.3-23.2l0.9 0.9 0.4 0.9 0.2 1-0.3 0.9-0.4 0.5-0.8 0.2-0.6-0.3-1.3 0.1-0.4-0.8 0-2.3 1.5 0 0.8-1.1z m-9.3-57.3l1.5 1.2 0.1 1.8 0.9 0.8-0.2 1.6 0.5 1.2 0 0.8-0.7 0.5 0.1 0.4-0.9 0.7-0.4 0.9 0.1 0.7 0.7 0.2 0.1 0.4-1.2 1.6-0.1 0.4-1.1 0.2-0.6-0.2-0.6-0.6-1-0.5-0.5 0.1-0.6 0.5-0.6-0.4 0.9-1.4 0.4-1.1-0.5-1.2-0.4-0.6-0.5 0 0.1-1.8-0.2-0.7-0.1-1.5 0.7 0.1 0.6-0.3 0.6-1.2 0.9-0.6 0.1-0.8 0.7-0.3 0.4-0.6 0.8-0.3z m4.3-21.3l0.9 0.7 0.6 1.9-0.7 1.4 0.9 0.2 0 0.7-1.8 0.8-1.3 0-0.7-0.7 0.4-0.5-0.1-0.7 1.2-0.2 0-1.2-0.4-0.6 0.1-1 0.6-1 0.3 0.2z m-1-2.8l0.2 0.8-0.6-0.1 0.4-0.7z m-13.4-0.1l0.7 0 1 0.3 0 1 0.2 0.7-0.5 0.6-0.4-0.3-1.1-0.1-0.3-0.6 0.4-1.6z m10.9-0.4l0.2 0.3 0.8 0.1-0.1 0.6-0.4 0.5-0.5 0-0.2-1.2 0.2-0.3z m16.5-8.4l0.4 0.3 1-0.3 0.3 0.3-0.7 0.8-1.2-0.6 0.2-0.5z m-14.5-4.6l0.3 1.1-0.3 0.2 0-1.3z m12.7-2l0.5-0.3 0.7 0.5 0.1 1 1 1.8 0.6 1.8-0.3 0.4-0.7-0.1-0.1-0.5-1.1-1.7-0.6 0.1-0.4-1.1-0.9-0.2-0.1-0.7 0.7-0.3 0.6-0.7z m0.8-2.6l0.4 0.1-0.2 2.1-0.3 0-1-0.9 0-1.3 1.1 0z m1.2-1.7l-0.1 0.6 0.4 0.5 0 1 0.6 0.7 0 0.6-0.4 0.5-0.6-0.9-0.6-0.2 0-1.1-1-0.2-0.5-0.3-0.3-0.7 0.3-0.3 1 0.4 1.2-0.6z m1.4-1.9l0.6 0.6 0.3 1.6-0.2 0.6 0.1 0.8-0.3 0.7-0.5 0-1.1-1.6 0.7-2 0.4-0.7z m-12.6-0.8l0.2 0.2 0.3 2.1 0.8-0.5 0.7 0.2-0.1 0.8-0.6 1.5-0.1 0.8 0.6 0.6 0.8 1.4-0.5 0.4-0.7-0.5 0.6 1.6-1.1 0.5-0.3 0.8 0.5 1.8 0.5-1.2 1-0.2 0.4 0.5-0.3 1.1 0.3 0.8-1.1 5.3-0.5 0.3-0.8 0.1-0.5 0.5-0.1 0.9-0.5 0.6-0.6-0.2 0 0.8 0.8 0 0.9-1.2 0.9-0.3 0.4 0.3-0.1 2-0.8 1.8-0.2 1.1 0.2 0.3-0.7 1-0.4-0.6-1.1 0-0.6-0.6 0.1-1-0.8-0.6-0.7-0.9 0.1-1.4-0.5-1 0.2-0.9-0.4-1-0.5 0.1-0.4 0.8-0.3-1 0.1-1.8-0.4-1.9-0.7 0.1-0.4-0.8 0.4-0.8 0.1-0.9 0.4-0.3 0.1-0.6 0.8-0.7 0.5 0.5 0.2 1.4 0.9 0.6-0.2-1.8 0.2-0.6 0-2.4 0.5-1.9-0.2-0.3 0.1-1.1 0.3-0.7 0.5-2 1.4-1.9 0.4 0z m1.1-0.3l0.2 0.3 0.8 0.2 0.2 0.9-0.1 0.7-1.4-0.2 0-1.4 0.3-0.5z m5.8-0.5l0.4 0.9-1.5-0.2 1.1-0.7z m6-0.2l0.3 0.9-0.1 0.5-0.6-0.2 0.2-1 0.2-0.2z m-12.5-1.2l0.4 0.1-0.4 1.7-0.3-0.8 0.3-1z m7.8 0.6l-0.6 0.7-0.7-0.7 0.4-0.4 0.4 0.4 0.5 0z m-5.6-1.1l0.6 0.2 0.5-0.2 0.7 0.4 1-0.2 0.4 0.2 0.6 1.4-1 0.5 0.5 0.7 0.1 1.1-0.8-0.3-0.1 1.4-0.4-0.2-1.3 2.1-0.2 0.9-1 0.7-0.9-0.8 0.1-0.5 0.8-2.7 0.2-0.9-0.1-0.9-0.5-0.1-0.4-0.5 0.4-1 0.4 0.4 0.6-0.8-0.2-0.9z m36.3-0.3l0.6 0.9 0.7 0.4-0.2 0.5 0.3 1.1-1.3 0-0.5-0.3-0.4-1.4 0.3-0.8 0.5-0.4z m-33.7-3.1l0.7 0.1 0.6 0.5-0.8 0.5-0.6-0.6 0.1-0.5z m3.5-0.2l-0.4 0.5 0 0.5-0.4 0.9-0.4-0.2 0.3-0.7 0.2-1.2 0.5-0.3 0.2 0.5z m-8.3-14.5l0.1 1.9-0.7-0.8 0.6-1.1z m6.4-3l0.4 0.2-0.1 0.9 0.7 0 0.5 2 0.4 0.6-0.7 1 0.2 0.4 0.7 0.5 0.1 0.9 0.5 0.4-0.5 0.7 0.1 0.6-0.3 1.3 0 1.2 0.1 1.1 0.5 1.2-0.5 2-0.5-0.4-0.4 0.6 0.5 0.6-0.2 0.5-0.7 0.4-0.2 0.9-0.7-0.6-0.6 0.4-1.7-0.4 0.3 1.1 1.2 1.5 0.5 1.1-0.3 0.3-0.7 0-0.9 0.4-0.8-0.4-0.4 0.3-0.8-0.4-0.9 0.6-0.9 0-0.7-1.3-0.1-2.9 0.3-1.1-0.2-0.7 0.3-0.7-0.5-0.8 0.2-0.9 0.3-0.6-0.1-1.2-0.4-0.5 0.5-0.4 0.2-0.7 0.7-0.1-0.1-0.5 0.4-0.6-0.5-0.9 0.4-0.1 0-0.8-0.3-0.7-0.4-1.6 0.1-1.4 0.5 0 1.1-1.2 0.8 0 0-0.9 1.1-0.2 0.1 0.3 0.2 0 0.2-0.2 0.1 0.2-0.1 0.3 0 0.1 0.1 0 1.1-0.3 0.6-0.4 0.2-0.7z m-6.9-2.7l0.8 0.4 0 3.2-0.2 0.9-0.8 1-0.1 0.6-0.6 0.8-0.6-1.5-0.1-0.8 0.5-0.7 0.1-1.3 0.4-0.8-0.3-0.4 0.5-1.3 0.4-0.1z m10.6-0.2l-0.5 0.4-0.7 1.1-0.4 0 0-1.2 0.6 0.3 1-0.6z m-2.8-0.9l0.4-0.1 0.2 1-0.8-0.1 0.2-0.8z m46-15.5l0.1 0.8-0.7 0.4-0.2-0.6 0.8-0.6z m-42.4-3.8l0.3 0.9 0.1 1.5-0.2 0.7-0.1 0.9 0.1 1.4 0.5 0.5 0.4 1.5 0.6 0.7-0.3 0.7-0.6-0.2-0.5 0.2 0-1-0.4 0.2-0.8-0.3-0.9 0.6-0.5-0.8-0.3 0.5 0.2 0.6 0.6 0.1 1.2 0.6 1.1 1.7 0.5-0.1-0.1 1-0.8 2 0.1 1.3-0.2 0.4 0.2 1.3-0.2 0.8-0.8 1.3-0.6 0.2-0.6-0.1-0.4 0.5-0.8-0.9-0.3-0.8-0.4 0.3-0.4 1.1 0.1 0.8 1.1 0.8-0.4 0.7-0.6-0.2-0.1-0.7-0.9 0-0.2 0.7 0.1 0.6-0.7 0.4 0 1.1 0.5 0 0 0.7-0.5 0.2-0.2 0-0.3 0-0.1 0 0.1-0.3 0-0.2-1.4-0.3-0.3-0.5 0.3-0.8-0.3-0.5 0-1 0.7-0.1 0.2-0.6-1-0.4 0.2-1.3 0-1.4 0.8-0.4-0.3-1 1.1-0.6-1.1-0.3 0.7-2.1-0.1-0.8 0.7-0.1 0.2-0.6-0.6-0.1-0.5-0.6 0.7-0.9-0.6-0.2 0-0.7 0.3-0.4 0.1-1 0.5-0.7-0.2-0.7 0.9-0.3 0.4-0.5-0.4-0.6 0.1-1 0.9-0.1 0.1-0.6 0.8-0.2-0.5-1 0.2-0.2 1.5-0.3 0.4 0.6 0.6-0.3-0.4-0.6 0.4-0.5 0.8 0.6 0.1-0.8 0.4 0z m-0.5-3.6l0.3 0.5-0.3 0.6-1 0-0.2-0.7 1.2-0.4z m12-16.9l0.4 1.2-0.2 1-0.2 0.9-0.4-0.2 0.3-0.8-0.4-1.9 0.5-0.2z m9.4-26.3l-0.3 1-0.7 0 0.4-0.9 0.6-0.1z" id="1" name="Andaman and Nicobar">
@@ -276,12 +283,20 @@ const verticalLine1Style ={
   </circle>
   <circle class="20.400061356601594|84.26020774841326" cx="549.9" cy="654.3" id="1">
   </circle>
-  <circle class="35.562067562117846|95.95035972595234" cx="949.1" cy="65.3" id="2">
-  </circle>
-  {/* Render circles based on circleData */}
-  {circleData.map(({ cx, cy, r, fill, key }) => (
-          <circle key={key} cx={cx} cy={cy} r={r} fill={fill} stroke="none"/>
-        ))}
+  <circle class="35.562067562117846|95.95035972595234" cx="949.1" cy="65.3" id="2"> </circle>
+ {/* Render circles based on circleData with hover events */}
+                  {circleData.map(({ cx, cy, r, fill, key }) => (
+                    <circle
+                      key={key}
+                      cx={cx}
+                      cy={cy}
+                      r={r}
+                      fill={fill}
+                      stroke="none"
+                      onMouseOver={() => handleCoordinateHover(key)}
+                      onMouseOut={handleCoordinateLeave}
+                    />
+                  ))}
  </g>
 </svg>
 </g>
@@ -301,7 +316,13 @@ const verticalLine1Style ={
       <div style={verticalLine3Style}><p style={{fontSize:'30px',marginLeft:'100px',color:'purple'}}>MLST</p></div>
       
     </div>
-
+ {/* Display information above the image when hovering over a coordinate */}
+ 
+        <div style={{zindex:'5', position: 'absolute', top: '50%', left: '78%', transform: 'translateX(-50%)', zIndex: '10', backgroundColor: 'white', padding: '10px', borderRadius: '5px', height:'40%', width:'40%',boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
+          <p>Information for Coordinate: {hoveredCoordinate}</p>
+          {/* Add more information as needed based on the hoveredCoordinate */}
+        </div>
+     
     </div>
   );
 };
