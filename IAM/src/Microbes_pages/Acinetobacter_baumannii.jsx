@@ -1,6 +1,7 @@
 import React, { useState ,useEffect} from 'react';
 import Navbar2 from './Navbar2';
 import Papa from 'papaparse';
+import Footer from '../Footer';
 
 const Acinetobacter_baumannii = () => {
   const [latLonData, setLatLonData] = useState([]);
@@ -49,6 +50,8 @@ const Acinetobacter_baumannii = () => {
       } catch (error) {
         console.error(error.message);
       }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    
     };
 
     fetchData();
@@ -64,17 +67,18 @@ const Acinetobacter_baumannii = () => {
       coordinateFrequency[key] = (coordinateFrequency[key] || 0) + 1;
     });
 
+    
     const circles = latLonData.map(({ lat, lon }) => {
       const key = `${lat}|${lon}`;
       const frequency = coordinateFrequency[key];
-      const adjustedSize = 10; // Adjust the constant size as needed
+      const adjustedSize = 5; // Adjust the constant size as needed
       const circleColor = calculateColor(frequency);
       return {
         cx: ((lon - minLongitude) / (maxLongitude - minLongitude)) * mapWidth,
         cy: ((maxLatitude - lat) / (maxLatitude - minLatitude)) * mapHeight,
         r: adjustedSize,
         fill: circleColor,
-        zIndex: '5',
+        zIndex: '2',
         key,
       };
     });
@@ -99,34 +103,7 @@ const Acinetobacter_baumannii = () => {
     setHoveredCoordinate(null);
   };
 
-  const containerStyle = {
-    display: 'flex',
-    height: '100vh',
-  };
-
-const verticalLine1Style ={
-  width: '0px',
-  marginTop:'10%',
-}
-
-  const verticalLine2Style = {
-    width: '2px',
-    height: '40%',
-    backgroundColor: 'black',
-    marginTop:'10%',
-    marginLeft: '33%',
-    
-   
-  };
-  const verticalLine3Style = {
-    width: '2px',
-    height: '40%',
-    backgroundColor: 'black',
-    marginTop:'10%',
-    marginLeft: '33%',
   
-   
-  };
   
   const viewBoxWidth = 650;
   const viewBoxHeight = 700;
@@ -153,10 +130,37 @@ const verticalLine1Style ={
         Math.round(color + ratio * (end[index] - color))
       );
 
-    const ratio = frequency * 0.1; // Adjust as needed
+    const ratio = frequency * 0.05; // Adjust as needed
     const interpolatedColor = interpolateColor(startColor, endColor, ratio);
 
     return `rgb(${interpolatedColor.join(',')})`;
+  };const containerStyle = {
+    display: 'flex',
+    height: '100vh',
+  };
+
+const verticalLine1Style ={
+  width: '0px',
+  marginTop:'10%',
+}
+
+  const verticalLine2Style = {
+    width: '2px',
+    height: '40%',
+    backgroundColor: 'black',
+    marginTop:'10%',
+    marginLeft: '33%',
+    
+   
+  };
+  const verticalLine3Style = {
+    width: '2px',
+    height: '40%',
+    backgroundColor: 'black',
+    marginTop:'10%',
+    marginLeft: '33%',
+  
+   
   };
 
   return (
@@ -322,6 +326,7 @@ const verticalLine1Style ={
           <p>Information for Coordinate: {hoveredCoordinate}</p>
           {/* Add more information as needed based on the hoveredCoordinate */}
         </div>
+     <Footer></Footer>
      
     </div>
   );
