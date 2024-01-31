@@ -8,6 +8,7 @@ const Acinetobacter_baumannii = () => {
   const [scale, setScale] = useState(0.6);
   const [circleData, setCircleData] = useState([]);
   const [hoveredCoordinate, setHoveredCoordinate] = useState(null);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +58,36 @@ const Acinetobacter_baumannii = () => {
     fetchData();
   }, []);
 
- 
+  const [dragging, setDragging] = useState(false);
+  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
+  const [currentPosition, setCurrentPosition] = useState({ x: 0, y: 0 });
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+
+  const movementFactor = 0.1; // Adjust this factor as needed
+  const handleMouseDown = (e) => {
+    setDragging(true);
+    setStartPosition({ x: e.clientX, y: e.clientY });
+    setCurrentPosition({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseMove = (e) => {
+    if (dragging) {
+      const deltaX = (e.clientX - startPosition.x) * movementFactor;
+      const deltaY = (e.clientY - startPosition.y) * movementFactor;
+
+      setCurrentPosition({ x: e.clientX, y: e.clientY });
+
+      // Update translation based on delta values
+      setTranslate((prevTranslate) => ({
+        x: prevTranslate.x + deltaX,
+        y: prevTranslate.y + deltaY,
+      }));
+    }
+  };
+
+  const handleMouseUp = () => {
+    setDragging(false);
+  };
 
   useEffect(() => {
     // Calculate the frequency of each coordinate
@@ -84,7 +114,7 @@ const Acinetobacter_baumannii = () => {
     });
   
     setCircleData(circles);
-  }, [latLonData, scale]);
+  }, [latLonData, scale, translate]);
 
 
     
@@ -190,6 +220,10 @@ const verticalLine1Style ={
           height="100%"
           xmlns="http://www.w3.org/2000/svg"
           viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
         >
           <rect
             x="0"
@@ -201,7 +235,7 @@ const verticalLine1Style ={
             strokeWidth="0"
           />
          
-          <g transform={`scale(${scale * (rectangleWidth / viewBoxWidth)})`}>
+         <g transform={`scale(${scale}) translate(${translate.x}, ${translate.y})`}>
   
          
           <svg baseprofile="tiny" fill="#C4C4C4" height="1136" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".2" version="1.2" viewbox="0 0 1000 1136" width="1000" xmlns="http://www.w3.org/2000/svg">
@@ -315,9 +349,9 @@ const verticalLine1Style ={
     </div>
 
     <div style={containerStyle}>
-      <div style={verticalLine1Style}><p style={{fontSize:'30px',marginLeft:'100px',color:'purple'}}>Virulance</p></div>
-      <div style={verticalLine2Style}><p style={{fontSize:'30px',marginLeft:'100px',color:'purple'}}>Typing</p></div>
-      <div style={verticalLine3Style}><p style={{fontSize:'30px',marginLeft:'100px',color:'purple'}}>MLST</p></div>
+      <div style={verticalLine1Style}><h7 style={{fontSize:'30px',marginLeft:'150px',color:'purple',}}>Virulance</h7></div>
+      <div style={verticalLine2Style}><p style={{fontSize:'30px',marginLeft:'150px',color:'purple'}}>Typing</p></div>
+      <div style={verticalLine3Style}><p style={{fontSize:'30px',marginLeft:'150px',color:'purple'}}>MLST</p></div>
       
     </div>
  {/* Display information above the image when hovering over a coordinate */}
