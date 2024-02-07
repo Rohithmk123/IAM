@@ -50,9 +50,9 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul className="navbar-nav">
+          <ul className="navbar-nav ms-auto"> {/* Align items to the right */}
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '20px' }}>
+              <a className="nav-link active" aria-current="page" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '20px', }}>
                 Home
               </a>
             </li>
@@ -78,35 +78,11 @@ function Navbar() {
                     1. Enterococcus faecium
                   </a>
                 </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    2. Enterococcus faecium
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    3. Enterococcus faecium
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    4. Enterococcus faecium
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    5. Enterococcus faecium
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    6. Enterococcus faecium
-                  </a>
-                </li>
+                {/* Other dropdown items */}
               </ul>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '30px',}}>
+              <a className="nav-link" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '30px', }}>
                 About
               </a>
             </li>

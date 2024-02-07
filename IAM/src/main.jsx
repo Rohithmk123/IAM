@@ -7,13 +7,17 @@ import {
   Route,
 } from 'react-router-dom';
 
-// Import your EnterococcusPage component here
+
 import EnterococcusPage from './Microbes_pages/EnterococcusPage.jsx'; // Adjust the path accordingly
-import Acinetobacter_baumannii from './Microbes_pages/Acinetobacter_baumannii.jsx';
+import Acinetobacter_baumannii from './Acinetobacter_baumannii/Acinetobacter_baumannii.jsx';
 import Staphylococcus_aureus from './Microbes_pages/Staphylococcus_aureus.jsx';
 import Klebsiella_pneumoniae from './Microbes_pages/Klebsiella_pneumoniae.jsx';
 import Pseudomonas_aeruginosa from './Microbes_pages/Pseudomonas_aeruginosa.jsx';
 import Enterobacter_spp from './Microbes_pages/Enterobacter_spp.jsx';
+import MLST from './Acinetobacter_baumannii/MLST.jsx';
+import Virulance from './Acinetobacter_baumannii/Virulance';
+import Typing from './Acinetobacter_baumannii/Typing';
+
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
@@ -27,6 +31,11 @@ root.render(
       <Route path="Klebsiella_pneumoniae" element={<Klebsiella_pneumoniae />} />
       <Route path=" Pseudomonas_aeruginosa" element={< Pseudomonas_aeruginosa />} />
       <Route path="Enterobacter_spp" element={<Enterobacter_spp />} />
+      <Route path="/Acinetobacter_baumannii/MLST" element={<MLST/>} />
+      <Route path="/Acinetobacter_baumannii/Virulance" element={<Virulance/>} />
+      <Route path="/Acinetobacter_baumannii/Typing" element={<Typing/>} />
+
+
     </Routes>
   </BrowserRouter>
 );

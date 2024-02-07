@@ -1,127 +1,248 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
+import { Link } from 'react-router-dom';
+import Navbar2 from '../Microbes_pages/Navbar2';
+import Papa from 'papaparse';
+import Footer from '../Footer';
+import MLST from '../Acinetobacter_baumannii/MLST';
 
-const IndiaMap = () => {
-  const [scale, setScale] = useState(1.0);
-  const [isMouseInside, setIsMouseInside] = useState(false);
+const Acinetobacter_baumannii = () => {
+  const [latLonData, setLatLonData] = useState([]);
+  const [scale, setScale] = useState(0.6);
+  const [circleData, setCircleData] = useState([]);
+  const [hoveredCoordinate, setHoveredCoordinate] = useState(null);
+  
 
-  const handleZoom = (factor) => {
-    setScale((prevScale) => Math.max(0.1, prevScale + factor));
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          'https://raw.githubusercontent.com/Rohithmk123/IAM/main/Acinetobacter_metadata.csv'
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch CSV data');
+        }
+
+        const csvText = await response.text();
+
+        Papa.parse(csvText, {
+          complete: (result) => {
+            const extractedData = result.data
+              .slice(0, 37)
+              .map((row) => row.lat_lon);
+
+            const processedData = extractedData.map((item) => {
+              const [lat, latDirection, lon, lonDirection] = item.split(' ');
+
+              const latNumeric = parseFloat(lat);
+              const lonNumeric = parseFloat(lon);
+
+              const latSign = latDirection === 'N' ? 1 : -1;
+              const lonSign = lonDirection === 'E' ? 1 : -1;
+
+              const finalLat = latNumeric * latSign;
+              const finalLon = lonNumeric * lonSign;
+
+              return { lat: finalLat, lon: finalLon };
+            });
+
+            setLatLonData(processedData);
+          },
+          header: true,
+        });
+      } catch (error) {
+        console.error(error.message);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    };
+
+    fetchData();
+  }, []);
+
+  const [dragging, setDragging] = useState(false);
+  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
+  const [currentPosition, setCurrentPosition] = useState({ x: 0, y: 0 });
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+
+  const movementFactor = 0.1; // Adjust this factor as needed
+  const handleMouseDown = (e) => {
+    setDragging(true);
+    setStartPosition({ x: e.clientX, y: e.clientY });
+    setCurrentPosition({ x: e.clientX, y: e.clientY });
   };
 
-  const handleWheel = (e) => {
-    e.preventDefault();
-    if (isMouseInside) {
-      const zoomFactor = e.deltaY > 0 ? -0.1 : 0.1;
-      handleZoom(zoomFactor);
+  const handleMouseMove = (e) => {
+    if (dragging) {
+      const deltaX = (e.clientX - startPosition.x) * movementFactor;
+      const deltaY = (e.clientY - startPosition.y) * movementFactor;
+
+      setCurrentPosition({ x: e.clientX, y: e.clientY });
+
+      // Update translation based on delta values
+      setTranslate((prevTranslate) => ({
+        x: prevTranslate.x + deltaX,
+        y: prevTranslate.y + deltaY,
+      }));
     }
   };
 
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        paddingTop: '300px',
-        overflow: 'hidden', // Prevent scrolling of the frame
-      }}
-      onMouseEnter={() => setIsMouseInside(true)}
-      onMouseLeave={() => setIsMouseInside(false)}
-    >
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '300px' }} onWheel={handleWheel}>
-      <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ background: '#D6D4D4' }}>
-      <div className="container-fluid" style={{ height: '60px' }}>
-        <a className="navbar-brand" href="#" style={{ marginRight: '650px', fontSize: '24px' }}>
-          <img src="/logo.PNG" alt="Logo" style={{ width: '70px', height: '60px', marginRight: '10px' }} />
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '20px' }}>
-                Home
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '20px' }}>
-                Features
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                style={{ color: '#4D0355', fontSize: '20px', marginRight: '30px' }}
-              >
-                Quick Access
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    1. Enterococcus faecium
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    2. Enterococcus faecium
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    3. Enterococcus faecium
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    4. Enterococcus faecium
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    5. Enterococcus faecium
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    6. Enterococcus faecium
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#" style={{ color: '#4D0355', fontSize: '20px', marginRight: '30px',}}>
-                About
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+  const handleMouseUp = () => {
+    setDragging(false);
+  };
+
+  useEffect(() => {
+    // Calculate the frequency of each coordinate
+    const coordinateFrequency = {};
+    latLonData.forEach(({ lat, lon }) => {
+      const key = `${lat}|${lon}`;
+      coordinateFrequency[key] = (coordinateFrequency[key] || 0) + 1;
+    });
+
+    
+    const circles = latLonData.map(({ lat, lon }) => {
+      const key = `${lat}|${lon}`;
+      const frequency = coordinateFrequency[key];
+      const adjustedSize = 5; // Adjust the constant size as needed
+      const circleColor = calculateColor(frequency);
+      return {
+        cx: ((lon - minLongitude) / (maxLongitude - minLongitude)) * mapWidth,
+        cy: ((maxLatitude - lat) / (maxLatitude - minLatitude)) * mapHeight,
+        r: adjustedSize,
+        fill: circleColor,
+        zIndex: '2',
+        key,
+      };
+    });
+  
+    setCircleData(circles);
+  }, [latLonData, scale, translate]);
+
+
+    
+
+
+
+  const handleZoomIn = () => {
+    setScale(scale + 0.2);
+  };
+
+  const handleZoomOut = () => {
+    setScale(Math.max(0.6, scale - 0.2));
+  };
+
+  const handleCoordinateLeave = () => {
+    setHoveredCoordinate(null);
+  };
 
   
+  
+  const viewBoxWidth = 650;
+  const viewBoxHeight = 700;
+  const mapWidth = 1025;
+  const mapHeight = 1100;
+  const minLatitude = 8.4;
+  const maxLatitude = 37.6;
+  const minLongitude = 68.7;
+  const maxLongitude = 97.4;
 
-      <div
-        style={{ width: '400px', height: '500px', overflow: 'hidden', border: '1px solid black',marginBottom:'300px' }}
-        onWheel={handleWheel}
-      >
-        <svg width="100%" height="100%" viewBox="0 0 400 500">
-          <rect x="0" y="0" width="400" height="500" fill="none" stroke="black" strokeWidth="2" />
-          <g transform={`scale(${scale})`}>
-       <svg baseprofile="tiny" fill="#ececec" height="1136" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1" version="1.2" viewbox="0 0 1000 1136" width="1000" xmlns="http://www.w3.org/2000/svg">
+
+  const rectangleWidth = 650;
+  const rectangleHeight = 700;
+
+  
+  const calculateColor = (frequency) => {
+    // Adjust these two colors as needed for your gradient
+    const startColor = [173, 216, 230]; // Light color
+    const endColor = [0, 0, 139]; // Dark color
+
+    // Interpolate colors based on the frequency
+    const interpolateColor = (start, end, ratio) =>
+      start.map((color, index) =>
+        Math.round(color + ratio * (end[index] - color))
+      );
+
+    const ratio = frequency * 0.05; // Adjust as needed
+    const interpolatedColor = interpolateColor(startColor, endColor, ratio);
+
+    return `rgb(${interpolatedColor.join(',')})`;
+  };const containerStyle = {
+    display: 'flex',
+    height: '100vh',
+  };
+
+const verticalLine1Style ={
+  width: '0px',
+  marginTop:'10%',
+}
+
+  const verticalLine2Style = {
+    width: '2px',
+    height: '40%',
+    backgroundColor: 'black',
+    marginTop:'10%',
+    marginLeft: '33%',
+    
+   
+  };
+  const verticalLine3Style = {
+    width: '2px',
+    height: '40%',
+    backgroundColor: 'black',
+    marginTop:'10%',
+    marginLeft: '33%',
+  
+   
+  };
+
+  return (
+    <div>
+       <div
+      style={{
+        position: 'absolute',
+        zIndex: '-1', // Set a lower zIndex
+        width: '100%',
+        height: '200vh', // Adjust height as needed
+        backgroundColor: '#F3F3F3', // Set your desired background color
+        overflow: 'hidden',
+        left: '50%',
+        transform: 'translateX(-50%)', // Center horizontally
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      
+    </div>
+    <Navbar2></Navbar2>
+    <div style={{ width: rectangleHeight, height: rectangleHeight, overflow: 'hidden', marginLeft: '20px',marginTop:'80px' , backgroundColor:'#F3F3F3'}}>
+      <div style={{ position: 'relative', overflow: 'hidden',  }}>
+        <svg
+          width="100%"
+          height="100%"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        >
+          <rect
+            x="0"
+            y="0"
+            width={rectangleWidth}
+            height={rectangleHeight}
+            fill="none"
+            stroke="black"
+            strokeWidth="0"
+          />
+         
+         <g transform={`scale(${scale}) translate(${translate.x}, ${translate.y})`}>
+  
+         
+          <svg baseprofile="tiny" fill="#C4C4C4" height="1136" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".2" version="1.2" viewbox="0 0 1000 1136" width="1000" xmlns="http://www.w3.org/2000/svg">
  <g id="combined">
+
   <path d="M877.3 1118.2l-0.2 0.4 0.3 0.5 0.7-0.1 0.4 1-0.1 0.4 0.3 0.9 0.1 1-0.1 1.2 0.4 0.3 0.6 1 0.1 1.3-0.2 0.4 0.5 0.5 0.2 0.7-0.6 0.7-0.3 0.7 0.2 0.4-0.6 0.3 0.1 0.7-0.2 0.5 0 0.7 0.5 0.3-0.4 1.2-0.4 0.3-0.6-0.7-0.5 0-0.3 0.5 0.1 0.7-0.7 0.9-0.7-0.3 0.2-1.5-0.4-0.2-0.5-0.8 0.3-0.4-0.7-0.6 0.2-0.6-0.6-0.9-0.4 0-0.3-0.6 0.3-0.4-0.2-0.8-0.5-0.3-0.3-0.8-0.5 0.1-0.3-0.7-0.4-0.3-0.6 0.2-0.1-1 0.1-1.3-0.3-0.2-0.2-1.4 0.7-0.5 0-1.2 0.4-0.5 0.9-0.1 0.7 0.2 0.7-0.8 1.8-0.1 0.1-0.5 0.6-0.3 0.7-0.1z m-4.6-7l0.3 0.8 0.1 0.8 1.1 0.8-0.1 0.5-0.4 0.4-0.6 1.3-0.6 0.2-0.9 0.7-0.4 0.8-0.7 0.6-0.7-0.9 0.2-0.7-0.3-0.6 0.4-0.5-0.2-1.4 1.1-0.7 1.5-0.4 0-1.5 0.2-0.2z m-11.4-20l1 0.6-0.2 1.1 0.6 0.5 0.3-0.3 1.1 1.1 0.4 1.4-0.4 0.8-0.7-0.9-0.8-0.3-0.7 0.2-0.7 0.7-0.7-0.3-0.4-0.4 0.1-0.8-1-0.6-0.2-0.7 0.4-0.5 0-0.5 0.4-0.7 0.7 0.1 0.8-0.5z m5.7-0.2l0.6 0.2 0.7 1.1-0.2 2-0.2 0.2-2.2-2 1.2-1 0.1-0.5z m1.1-3.3l0.4 0.5 0 1.5 0.4 0.8-0.3 0.2-0.7-1 0.3-0.5-0.4-0.3-0.3-1 0.6-0.2z m-1.8-3.7l0.6 0.2 0.1 1-0.7 0.9-0.5 0.2-0.2 0.7 0.7 0.9 0.2 0.7 0.6 0.4 0.1 0.7-0.4 1-1.1 0.1 0 1.2-0.6 0-0.1-1.3 1.3-0.6 0.1-0.7-0.4-0.3-1.1 1.1 0-0.9-0.9-1.6-0.1-1.7 0.7-0.4 0.5-0.4 0.1-0.9 1.1-0.3z m-9.9-1.1l0.6 1.2-0.5 0.3-0.6-0.8 0.5-0.7z m-3.7-3.2l0.5 0.4-0.4 1.2-0.1 1.1 0.9 1.2 1.4 0.7 0.4 0.4-0.4 0.7-1-0.3-1.4-0.7-0.8-0.9-0.5-0.9 0-1.2 0.3-1.1 1.1-0.6z m-2.9-4l0.5 0.4-0.2 0.8-0.6-0.5 0.3-0.7z m19.6-3.5l0.2 1.5 0.4 0.2 0.3 2-0.6 0 0-1.7-0.5-1 0.2-1z m-28.3-23.2l0.9 0.9 0.4 0.9 0.2 1-0.3 0.9-0.4 0.5-0.8 0.2-0.6-0.3-1.3 0.1-0.4-0.8 0-2.3 1.5 0 0.8-1.1z m-9.3-57.3l1.5 1.2 0.1 1.8 0.9 0.8-0.2 1.6 0.5 1.2 0 0.8-0.7 0.5 0.1 0.4-0.9 0.7-0.4 0.9 0.1 0.7 0.7 0.2 0.1 0.4-1.2 1.6-0.1 0.4-1.1 0.2-0.6-0.2-0.6-0.6-1-0.5-0.5 0.1-0.6 0.5-0.6-0.4 0.9-1.4 0.4-1.1-0.5-1.2-0.4-0.6-0.5 0 0.1-1.8-0.2-0.7-0.1-1.5 0.7 0.1 0.6-0.3 0.6-1.2 0.9-0.6 0.1-0.8 0.7-0.3 0.4-0.6 0.8-0.3z m4.3-21.3l0.9 0.7 0.6 1.9-0.7 1.4 0.9 0.2 0 0.7-1.8 0.8-1.3 0-0.7-0.7 0.4-0.5-0.1-0.7 1.2-0.2 0-1.2-0.4-0.6 0.1-1 0.6-1 0.3 0.2z m-1-2.8l0.2 0.8-0.6-0.1 0.4-0.7z m-13.4-0.1l0.7 0 1 0.3 0 1 0.2 0.7-0.5 0.6-0.4-0.3-1.1-0.1-0.3-0.6 0.4-1.6z m10.9-0.4l0.2 0.3 0.8 0.1-0.1 0.6-0.4 0.5-0.5 0-0.2-1.2 0.2-0.3z m16.5-8.4l0.4 0.3 1-0.3 0.3 0.3-0.7 0.8-1.2-0.6 0.2-0.5z m-14.5-4.6l0.3 1.1-0.3 0.2 0-1.3z m12.7-2l0.5-0.3 0.7 0.5 0.1 1 1 1.8 0.6 1.8-0.3 0.4-0.7-0.1-0.1-0.5-1.1-1.7-0.6 0.1-0.4-1.1-0.9-0.2-0.1-0.7 0.7-0.3 0.6-0.7z m0.8-2.6l0.4 0.1-0.2 2.1-0.3 0-1-0.9 0-1.3 1.1 0z m1.2-1.7l-0.1 0.6 0.4 0.5 0 1 0.6 0.7 0 0.6-0.4 0.5-0.6-0.9-0.6-0.2 0-1.1-1-0.2-0.5-0.3-0.3-0.7 0.3-0.3 1 0.4 1.2-0.6z m1.4-1.9l0.6 0.6 0.3 1.6-0.2 0.6 0.1 0.8-0.3 0.7-0.5 0-1.1-1.6 0.7-2 0.4-0.7z m-12.6-0.8l0.2 0.2 0.3 2.1 0.8-0.5 0.7 0.2-0.1 0.8-0.6 1.5-0.1 0.8 0.6 0.6 0.8 1.4-0.5 0.4-0.7-0.5 0.6 1.6-1.1 0.5-0.3 0.8 0.5 1.8 0.5-1.2 1-0.2 0.4 0.5-0.3 1.1 0.3 0.8-1.1 5.3-0.5 0.3-0.8 0.1-0.5 0.5-0.1 0.9-0.5 0.6-0.6-0.2 0 0.8 0.8 0 0.9-1.2 0.9-0.3 0.4 0.3-0.1 2-0.8 1.8-0.2 1.1 0.2 0.3-0.7 1-0.4-0.6-1.1 0-0.6-0.6 0.1-1-0.8-0.6-0.7-0.9 0.1-1.4-0.5-1 0.2-0.9-0.4-1-0.5 0.1-0.4 0.8-0.3-1 0.1-1.8-0.4-1.9-0.7 0.1-0.4-0.8 0.4-0.8 0.1-0.9 0.4-0.3 0.1-0.6 0.8-0.7 0.5 0.5 0.2 1.4 0.9 0.6-0.2-1.8 0.2-0.6 0-2.4 0.5-1.9-0.2-0.3 0.1-1.1 0.3-0.7 0.5-2 1.4-1.9 0.4 0z m1.1-0.3l0.2 0.3 0.8 0.2 0.2 0.9-0.1 0.7-1.4-0.2 0-1.4 0.3-0.5z m5.8-0.5l0.4 0.9-1.5-0.2 1.1-0.7z m6-0.2l0.3 0.9-0.1 0.5-0.6-0.2 0.2-1 0.2-0.2z m-12.5-1.2l0.4 0.1-0.4 1.7-0.3-0.8 0.3-1z m7.8 0.6l-0.6 0.7-0.7-0.7 0.4-0.4 0.4 0.4 0.5 0z m-5.6-1.1l0.6 0.2 0.5-0.2 0.7 0.4 1-0.2 0.4 0.2 0.6 1.4-1 0.5 0.5 0.7 0.1 1.1-0.8-0.3-0.1 1.4-0.4-0.2-1.3 2.1-0.2 0.9-1 0.7-0.9-0.8 0.1-0.5 0.8-2.7 0.2-0.9-0.1-0.9-0.5-0.1-0.4-0.5 0.4-1 0.4 0.4 0.6-0.8-0.2-0.9z m36.3-0.3l0.6 0.9 0.7 0.4-0.2 0.5 0.3 1.1-1.3 0-0.5-0.3-0.4-1.4 0.3-0.8 0.5-0.4z m-33.7-3.1l0.7 0.1 0.6 0.5-0.8 0.5-0.6-0.6 0.1-0.5z m3.5-0.2l-0.4 0.5 0 0.5-0.4 0.9-0.4-0.2 0.3-0.7 0.2-1.2 0.5-0.3 0.2 0.5z m-8.3-14.5l0.1 1.9-0.7-0.8 0.6-1.1z m6.4-3l0.4 0.2-0.1 0.9 0.7 0 0.5 2 0.4 0.6-0.7 1 0.2 0.4 0.7 0.5 0.1 0.9 0.5 0.4-0.5 0.7 0.1 0.6-0.3 1.3 0 1.2 0.1 1.1 0.5 1.2-0.5 2-0.5-0.4-0.4 0.6 0.5 0.6-0.2 0.5-0.7 0.4-0.2 0.9-0.7-0.6-0.6 0.4-1.7-0.4 0.3 1.1 1.2 1.5 0.5 1.1-0.3 0.3-0.7 0-0.9 0.4-0.8-0.4-0.4 0.3-0.8-0.4-0.9 0.6-0.9 0-0.7-1.3-0.1-2.9 0.3-1.1-0.2-0.7 0.3-0.7-0.5-0.8 0.2-0.9 0.3-0.6-0.1-1.2-0.4-0.5 0.5-0.4 0.2-0.7 0.7-0.1-0.1-0.5 0.4-0.6-0.5-0.9 0.4-0.1 0-0.8-0.3-0.7-0.4-1.6 0.1-1.4 0.5 0 1.1-1.2 0.8 0 0-0.9 1.1-0.2 0.1 0.3 0.2 0 0.2-0.2 0.1 0.2-0.1 0.3 0 0.1 0.1 0 1.1-0.3 0.6-0.4 0.2-0.7z m-6.9-2.7l0.8 0.4 0 3.2-0.2 0.9-0.8 1-0.1 0.6-0.6 0.8-0.6-1.5-0.1-0.8 0.5-0.7 0.1-1.3 0.4-0.8-0.3-0.4 0.5-1.3 0.4-0.1z m10.6-0.2l-0.5 0.4-0.7 1.1-0.4 0 0-1.2 0.6 0.3 1-0.6z m-2.8-0.9l0.4-0.1 0.2 1-0.8-0.1 0.2-0.8z m46-15.5l0.1 0.8-0.7 0.4-0.2-0.6 0.8-0.6z m-42.4-3.8l0.3 0.9 0.1 1.5-0.2 0.7-0.1 0.9 0.1 1.4 0.5 0.5 0.4 1.5 0.6 0.7-0.3 0.7-0.6-0.2-0.5 0.2 0-1-0.4 0.2-0.8-0.3-0.9 0.6-0.5-0.8-0.3 0.5 0.2 0.6 0.6 0.1 1.2 0.6 1.1 1.7 0.5-0.1-0.1 1-0.8 2 0.1 1.3-0.2 0.4 0.2 1.3-0.2 0.8-0.8 1.3-0.6 0.2-0.6-0.1-0.4 0.5-0.8-0.9-0.3-0.8-0.4 0.3-0.4 1.1 0.1 0.8 1.1 0.8-0.4 0.7-0.6-0.2-0.1-0.7-0.9 0-0.2 0.7 0.1 0.6-0.7 0.4 0 1.1 0.5 0 0 0.7-0.5 0.2-0.2 0-0.3 0-0.1 0 0.1-0.3 0-0.2-1.4-0.3-0.3-0.5 0.3-0.8-0.3-0.5 0-1 0.7-0.1 0.2-0.6-1-0.4 0.2-1.3 0-1.4 0.8-0.4-0.3-1 1.1-0.6-1.1-0.3 0.7-2.1-0.1-0.8 0.7-0.1 0.2-0.6-0.6-0.1-0.5-0.6 0.7-0.9-0.6-0.2 0-0.7 0.3-0.4 0.1-1 0.5-0.7-0.2-0.7 0.9-0.3 0.4-0.5-0.4-0.6 0.1-1 0.9-0.1 0.1-0.6 0.8-0.2-0.5-1 0.2-0.2 1.5-0.3 0.4 0.6 0.6-0.3-0.4-0.6 0.4-0.5 0.8 0.6 0.1-0.8 0.4 0z m-0.5-3.6l0.3 0.5-0.3 0.6-1 0-0.2-0.7 1.2-0.4z m12-16.9l0.4 1.2-0.2 1-0.2 0.9-0.4-0.2 0.3-0.8-0.4-1.9 0.5-0.2z m9.4-26.3l-0.3 1-0.7 0 0.4-0.9 0.6-0.1z" id="1" name="Andaman and Nicobar">
   </path>
   <path d="M319.4 815.3l0.2-1.5-0.4-0.4 0.2-1-0.3-0.1-0.4-0.9 0.5-1.5-0.2-0.9-0.4-0.6-0.1-1.6 0.4-1 0-0.9-0.3-1.3 0.5-0.6 0.8-0.1 0.6-0.6 0.8-0.4 0.5 0.4 0.4-0.9-0.3-0.6-1.6-0.9-0.6-0.6-1.3-0.3-1.5 0.2-0.9 0.4-1.3-0.6-0.7 0.1-0.7-0.4-1.6-0.6-0.7-0.9-0.4-1.4 1.3-0.2 0.2-0.6 1 0.4 1.4-0.1 0.1-0.7 0.4-0.3 1.2-0.2 0-1-0.5-0.1-0.4-0.6 1.1 0 0.5-0.6 0.7 0-0.1-0.9 0.6-1.3-0.4-0.2-0.9 0.4-0.6-0.9 1.7-0.6 0.1-1-1.6-0.3 0.5-1.7-0.1-0.5 1.1 0 0.2-0.7-0.5-1 0.1-0.7-0.2-2.3 0.4-0.3-0.1-1.3 0.5-0.5 0-0.8 0.7-0.6-0.2-0.9-0.5-1 0-0.6-0.6-0.6 0.1-0.4-2-0.6-1-0.6-0.5-0.8 0.3-1 0.7-0.1 0.1-0.7-0.4-0.3 2.5-2-0.7-0.4 0.5-1 0.3-1.1-0.2-0.9 0.8 0.1 0.3 0.5 1.3-0.3 0-0.9 0.4-0.4-0.8-0.5 0-0.5 0.8-0.5 1.3 0.4 0-0.9 0.8 0.4 0.5 0 0-0.9 0.8-0.1 0.5-0.3 1.2 0.3 0.2-1-1.1-0.8-1.2 0-1-0.4-0.2-0.9-1.3 0.3-0.7-0.8-0.9 1.1-0.4-0.9-0.5 0-0.5-0.4-0.7-0.1 0-0.8 0.4-1.1-0.2-0.9 0.4-1.4 1.1-0.3 0.2-0.4 1.1-0.4 0.4 0.1 0.8-0.8-0.3-0.5-1.1-0.6-0.6-0.1 0.2-0.7 0.5-0.4 0-0.5 1-0.2 0.3-0.4 0.2-0.8 0.8-0.5-0.2-1.1 1 0.2 0.1-1.5 0.9 0 0.3-0.8-0.3-0.9-0.6 0-0.7-0.9-1.8-0.6-0.3-0.7 0.7-0.8 1.1-0.3 0.1-0.5-0.3-1 0.2-0.9-0.6-0.4-0.4-0.9 0.6-1-0.5-0.9 1.1-1.3-1.1-0.5-0.7 0 0.6-0.6-0.5-0.9-0.9-0.2-0.2-1 0.9-0.8 0.2-1.1-1-0.3 0.1-0.5 1.1 0.2 0.8-0.3-0.4-0.8 0.2-0.6 0.8 0.3 0.1-0.6-0.6-0.4 0.4-1.6 1.4-0.3 0.2 0.7 0.4 0.3 1.9-1 0.5 0.1 0.7-1.3-0.2-1.2-0.4-0.8 0.1-1.2 0.6-0.5 1.2-0.1 0.6-0.8 0-0.5 0.7-1.4 0.5-1.4 2.4-0.8 1.2 0.3 0-0.8-0.6-0.6-0.9-0.3-0.4-0.6-0.2-0.9-0.9 0.1-0.5-0.2 0.4-1.4-1.4 0.1 0.2-1.2-1.7 0-0.1-1.4-0.3-0.3 0.2-1.2 1.2 0.4-0.1-0.7 0.2-1 0.5-0.2 0.5 0.7 0.4-0.1 0.1-1-0.3-0.7 0.5-0.8 0.1-0.7-0.3-0.5 0.8-2.1 0.6-0.5 0.5 0.2 0-0.8-1.3-0.2 0-0.7 1.7-0.6 0.5-0.5 0.8-0.3 0.9 0.7 0.3 0.5 0.9 0.3 0.6 0.8 0.6 0.3 0.1 0.8 0.3 0.3 0.8-0.6 0.6 0.4 1-0.1 0.7 0.6 1.2-0.4 0-1.3 0.3-0.9 0.2-1.1-0.6-0.7 0.2-1.6 1.3-1.4 0.9 0.2 0.8-0.9 0.8 0.2 0.5-0.6-0.1-0.8-0.4-0.6-0.1-2 0.5-0.4 0-1.2-0.8-1.8-0.6-0.4 0.6-0.9 1-0.1 0.2-0.4 0.8-0.4 0-0.7 0.5-0.8 0.3-0.9-0.3-0.9-0.7-0.3 0-0.9-1.5-0.4 0.5-2.3 0.9 1.1 1.6 0.1 0.1 1 0.4 0.6 1.1 0.4 1.6 0.3 0.6 0.8 1.1-1 2 0.4 0.6-0.3 0.6 0.4 2.8 0.8 0.5 0.7 0.7-0.5 0.9 0.2 0.7-0.2 0.8 0.8 1.3 0 0.4 1 0.2 1.2-0.1 1.5 1 0 0.9-0.4 0.9 0.1 0.9 0.5-0.2 1.2 0.5 1 0 0.4-0.8 0.6 0 0.4 0.8 0 0.5-0.4 0.9 0.8 1.1-0.2 0.4 0.5 1.4 0.1 0 0.6 1.3 0.4 0.9 1.2 0.7 0.4 1-0.3-0.3-0.7 0.2-0.9 0.8-0.6 0.1-1.2 0.3-0.7-0.4-1.1 0.6-0.1 1.7 0.8 0.3 0.9 0.9-0.3 1 0.1 0 0.3 1.5 1 0.9 0 0.6 0.6 0.4 0.7 1.5-0.7 0.1-0.9 0.9-0.2 0.2 0.8 0.6 0.6 0.9 0.3 0.3-0.2 0.2-1.2 0.5-0.9 0.6-0.4 1.3 0 1.2-0.3 1-0.7 1.2 0.2 0.6 0.7 0.8 0.4 0.4 1.1 1.7 1.3 1.1 0.3 1.1 1.2 0.1 0.7 0.9 1.4-0.3 1.9-0.2 0.5 0.1 1.4-0.6 0.5-0.8 2.1 0.1 0.8 0.7 1-1.3 1.2-1.2 0.7-0.4 0.7 0.1 1.6-0.2 0.6 0.5 0.3 0.7-0.4 1.2 0.1 0.3 0.8-0.1 1.7 0.3 1.3-0.1 2.8-0.4 0.8-1.1 0.2 0.8 1.3 0.5 0.4 2.7 0.7 0.3 0.5 0.4 0.2 0.5 0.9 1.2 0.7 0.9 0.9 1.7-0.7 0.3 0.6 0.8 0.1 0.4-0.7 1.5-0.2 0.8-0.6 0.9 1.2 0.8 2.3 0.8 1.3 0.9-0.7 0.5 0.4 0.7-0.5 1.6-0.7 1.3 0 0.8 0.4 0.7 1.1 2.3 1.5 0.5 0.6 0.6 0.3 0.2 0.9 0.4 0.8 1.1 0.6 0.5 0.7-0.2 0.6 0.8 0.5 0.3 1.6 0.7 1.6 0 0.5 0.8 0.9 0.6 1.2-1.7 0.9 0 1.7 1 0.3 1.2-0.1 0.7-0.9-0.1-1.2 0.3-0.3 1.2 0.2 0.2 0.7-0.6 0.3 0.2 2 0.3 0.4 1.3-0.1 1.5-0.8 0.3-0.3 0.7-0.1-0.1 0.9-0.8 0.7 0 1.2 0.6 1.7-0.1 0.4 0.3 1.4 0.4 2.5 0.4 0.3 0.3 2.8 0.3 0.7 0.7 1 0.8 0.2 0.6-0.1 0.8-1.1 2.1-1.3 1.1 0.2 2.1 1.3 2.1 0 2.4 0.2 0.8 0.1 0.6-0.6 0.4 0.2 1.1-0.3 0.4 0.7 2.5-0.5 0.7-0.4 1.2 0.5 1.1-0.9 0.1-0.6 0.6-0.7 0.9-0.3 0.5 0.8 1.9-1.1 0.8 0.8 0.4 0.9-0.4 0.5-0.6 0.1-0.4 0.4-0.8-0.1-0.9 0.7-0.2 0.6-0.8 0.6-1.8 0.2-0.4 0.6-1 0.5-0.3 0.4 0 1.1-0.6 0.8-0.7 1.3-0.8 0.7-0.3 0.8 0.8 0.6-0.8 1.2-0.3 3.2-1.8 2.4-0.7 0.4-0.1 0.3-1.1 0.3-1.2-0.5-0.2-0.6-0.7-0.2-1.2 1.9-0.7 0.6-1.7 0-0.9-0.2-0.7 0.7 0 1.4 0.3 0.5-0.6 0.7-0.6 0.1-2 0.6-0.8 0.4-0.6-0.1-0.6 0.7-1.4 0.2-1-0.3-0.9-0.6-0.9 0.2 0.4 1.1-0.1 0.8-0.8 0.2-0.7-0.2-0.1 0.8-0.4 0.5 0.3 0.5-0.2 1 0 0.6-0.9 0.9-0.3-0.4-2.6-0.6-0.7-0.4-1.4-0.1-1.2 0.5-0.4-0.6 0.6-0.4-0.9-1-1.2-0.3-1.2-0.7-0.3 0.5-1.8 0.8-0.4 0.7 0 0.9-0.5 0.7-0.6 0-0.2 0.7-0.9-0.2-0.7-1.1-0.2-0.8-0.9 0.7 0.7 1.6-0.6 0.6-0.4 0.9 1.3 0.5 1.5 0.4 1.2 0.9 0.5-1 1 0.4 0.4-0.5 1.3 0.9 0.5 0-0.1 0.8 0.2 1.1-0.8 0.1-0.1 1.2-0.2 0.4 1 0.7 0.4 0.7-1.2 0.8-2.5-0.4-1.1-0.5-0.1-1-1-0.5-0.2-0.4-0.6-0.3 0 0.7-0.9 0.7-0.5-1.6-0.8 0-0.6-0.5-0.2-1.5-0.4-1.6-1.3-1.9-0.7 0.3-0.8-0.6-0.8 0 0-0.9-0.5 0-0.5 0.7-0.8 0.8-0.3 0.6-1 0.1-0.6-0.2-0.1 0.9-1.3-0.1-0.3 1-1 1.1-0.6 1.5 0.8 0.4 0.7 0 0.2 1 1 0.4-0.6 1.5-0.1 1-1.1 1.1-0.9 0.7-0.6 1.2-1 1-0.7 0-0.7-0.2-0.4-0.4-0.6-1.4-0.4-0.4-1.8 0.3-0.9-1.2-0.3-0.2-0.8 0.3-0.9 1-1.4 0.1-0.9 0.6-0.3 0.4-1.6 0-0.9 0.7-1.3 0.4-1.3 0-1.6 0.8-0.3 0.6-0.6 0.3-2.7 0.2-0.9 0.1-1.8 0.5-0.2 0.5-1.1 1-0.2 1 0.4 1.2-0.5 0.7-0.3 2.7 0.6 0.9 0 1.3-0.1 1.8-0.6 0.7-1.1 0.5-1.8-0.8-1.9 0-0.9-0.2-0.7 0-1 0.6-1.1 0.4-1.8 0.9-0.1 0.9 0.6 1.5-0.7 0.9-1-0.4-0.2-1.2-0.3-0.6-0.9 0.3 0.2 2.3-1 1.4-1.1 0.8-1.2 0.1-0.9-0.2-0.9-0.5-0.7-0.5-1-1.3-1.2-0.2-1.5 1.5-2.2-0.6-1.5-0.3-1.5 0-1.2 0.7-1.1 0.3-0.8 0.8-0.8 0.1-0.8-0.3-0.6 0.4 0.3 1.1-0.4 0.9-0.2 1.1-0.5 0.5-0.8 0.2-0.8 0.6 0 0.5-0.6 1.3-1.3 0 0.1 0.5-0.9 0.3-1.3-0.6-0.5-0.9-0.3-1-0.8 0.1-0.5 1.3-1-0.6-1.5 0-1.4-0.7-0.7 0.1-0.4 0.6-0.7 0-1.2 0.4-2.9-0.8-1.1 0.5-1.5-0.4-1.1-1-0.6 0.2-2.7-0.5z" id="37" name="Telangana">
@@ -202,17 +323,49 @@ const IndiaMap = () => {
   </circle>
   <circle class="20.400061356601594|84.26020774841326" cx="549.9" cy="654.3" id="1">
   </circle>
-  <circle class="35.562067562117846|95.95035972595234" cx="949.1" cy="65.3" id="2">
-  </circle>
+  <circle class="35.562067562117846|95.95035972595234" cx="949.1" cy="65.3" id="2"> </circle>
+ {/* Render circles based on circleData with hover events */}
+                  {circleData.map(({ cx, cy, r, fill, key }) => (
+                    <circle
+                      key={key}
+                      cx={cx}
+                      cy={cy}
+                      r={r}
+                      fill={fill}
+                      stroke="none"
+                      onMouseOver={() => handleCoordinateHover(key)}
+                      onMouseOut={handleCoordinateLeave}
+                    />
+                  ))}
  </g>
 </svg>
-        </g>
-      </svg>
-    </div>
-    </div>
+</g>
+          <foreignObject x={450} y={0} width="200" height="100">
+            <div style={{ position: 'absolute', display: 'flex', flexDirection: 'row', gap: '10px' }}>
+              <button onClick={handleZoomIn}>Zoom In</button>
+              <button onClick={handleZoomOut}>Zoom Out</button>
+            </div>
+          </foreignObject>
+        </svg>
+      </div>
     </div>
 
+    <div style={containerStyle}>
+      <div style={verticalLine1Style}><Link to= "Virulance"><h7 style={{fontSize:'30px',marginLeft:'150px',color:'purple',}}>Virulance</h7></Link></div>
+      <div style={verticalLine2Style}><Link to= "Typing"><p style={{fontSize:'30px',marginLeft:'150px',color:'purple'}}>Typing</p></Link></div>
+    <div style={verticalLine3Style}>  <Link to= "MLST"><p style={{fontSize:'30px',marginLeft:'150px',color:'purple'}}>MLST</p></Link></div>
+      
+    </div>
+ {/* Display information above the image when hovering over a coordinate */}
+ 
+        <div style={{zindex:'5', position: 'absolute', top: '50%', left: '78%', transform: 'translateX(-50%)', zIndex: '10', backgroundColor: 'white', padding: '10px', borderRadius: '5px', height:'40%', width:'40%',boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
+          <p>Information for Coordinate: {hoveredCoordinate}</p>
+          {/* Add more information as needed based on the hoveredCoordinate */}
+        </div>
+     <Footer></Footer>
+     
+    </div>
   );
 };
 
-export default IndiaMap;
+export default Acinetobacter_baumannii;

@@ -70,11 +70,14 @@ function FloatingInfo4() {
         onMouseLeave={handleMouseLeave}
       >
         {/* Add your additional information content here */}
+        {/*circle*/}
+        
         <div style={{ position: 'relative' }}>
+          
           <div
             style={{
               position: 'absolute',
-              top: '-30px',
+              top: '-15px',
               left: '-15px',
               width: '120px',
               height: '120px',
@@ -83,10 +86,11 @@ function FloatingInfo4() {
               zIndex: '-1'
             }}
           ></div>
-          <div
+                                        {/*rectangle*/}
+          <div                           
             style={{
               position: 'absolute',
-              top: '0',
+              top: '15px',
               left: '50%',
               transform: 'translateX(-50%)',
               width: '320px',
@@ -97,16 +101,19 @@ function FloatingInfo4() {
             }}
           ></div>
           <div>
-            <p style={{ cursor: 'pointer', textDecoration: '', textAlign: 'center' }}>
-              <h5 style={headingStyle}>Acinetobacter baumannii</h5>
-            </p>
+            <h5 style={{ cursor: 'pointer', textDecoration: '', position: 'absolute',right: '70px', margin: 0 ,top:'20px' }}>
+              Acinetobacter 
+            </h5>
+            <h5 style={{ cursor: 'pointer', textDecoration: '', position: 'absolute',top:'40px',right: '30px' ,margin: 0  }}>
+               baumannii
+            </h5>
+         
           </div>
           <img
             src='/e facum.jpg' // Replace with the actual path to your image
             alt="Acinetobacter baumannii Image"
-            style={{ width: '90px', height: '90px', position: 'absolute',
-            top: '-15px', left: '-2px', zIndex: '1' }}
-          />
+            style={{ width: '90px', height: '90px', position: 'absolute', top: '0px', left: '-2px', zIndex: '1' }}
+            />
         </div>
       </div>
     </Link>

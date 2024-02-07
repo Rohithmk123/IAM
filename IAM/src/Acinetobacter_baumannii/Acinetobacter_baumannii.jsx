@@ -1,7 +1,9 @@
 import React, { useState ,useEffect} from 'react';
-import Navbar2 from './Navbar2';
+import { Link } from 'react-router-dom';
+import Navbar2 from '../Microbes_pages/Navbar2';
 import Papa from 'papaparse';
 import Footer from '../Footer';
+import MLST from './MLST';
 
 const Acinetobacter_baumannii = () => {
   const [latLonData, setLatLonData] = useState([]);
@@ -349,9 +351,9 @@ const verticalLine1Style ={
     </div>
 
     <div style={containerStyle}>
-      <div style={verticalLine1Style}><h7 style={{fontSize:'30px',marginLeft:'150px',color:'purple',}}>Virulance</h7></div>
-      <div style={verticalLine2Style}><p style={{fontSize:'30px',marginLeft:'150px',color:'purple'}}>Typing</p></div>
-      <div style={verticalLine3Style}><p style={{fontSize:'30px',marginLeft:'150px',color:'purple'}}>MLST</p></div>
+      <div style={verticalLine1Style}><Link to= "Virulance"><h7 style={{fontSize:'30px',marginLeft:'150px',color:'purple',}}>Virulance</h7></Link></div>
+      <div style={verticalLine2Style}><Link to= "Typing"><p style={{fontSize:'30px',marginLeft:'150px',color:'purple'}}>Typing</p></Link></div>
+    <div style={verticalLine3Style}>  <Link to= "MLST"><p style={{fontSize:'30px',marginLeft:'150px',color:'purple'}}>MLST</p></Link></div>
       
     </div>
  {/* Display information above the image when hovering over a coordinate */}

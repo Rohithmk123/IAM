@@ -84,46 +84,50 @@ function FloatingInfo5() {
             }}
           ></div>
           {/*Change color of rectangle*/} 
+          
+        <div style={{ position: 'relative' }}>
+          
           <div
             style={{
               position: 'absolute',
-              top: '0',
+              top: '-15px',
+              left: '-15px',
+              width: '120px',
+              height: '120px',
+              borderRadius: '50%',
+              backgroundColor: isHovered ? 'purple' : '#8c0303', // Change color on hover
+              zIndex: '-1'
+            }}
+          ></div>
+                                        {/*rectangle*/}
+          <div                           
+            style={{
+              position: 'absolute',
+              top: '15px',
               left: '50%',
               transform: 'translateX(-50%)',
               width: '320px',
               height: '50px',
-              backgroundColor: isHovered ? 'purple' : '#8c0303', 
+              backgroundColor: isHovered ? 'purple' : '#8c0303', // Change color on hover
               zIndex: '-1',
               borderRadius: '10px'
             }}
           ></div>
           <div>
-            <p style={{ cursor: 'pointer', textDecoration: 'underline', textAlign: 'center' }}>
-              Pseudomonas aeruginosa
-            </p>
+            <h5 style={{ cursor: 'pointer', textDecoration: '', position: 'absolute',right: '70px', margin: 0 ,top:'20px' }}>
+              Acinetobacter 
+            </h5>
+            <h5 style={{ cursor: 'pointer', textDecoration: '', position: 'absolute',top:'40px',right: '30px' ,margin: 0  }}>
+               baumannii
+            </h5>
+         
           </div>
           <img
             src='/e facum.jpg' // Replace with the actual path to your image
-            alt="Pseudomonas aeruginosa Image"
-            style={{ width: '90px', height: '90px', position: 'absolute', 
-            top: '-15px', left: '-2px', zIndex: '1' }}
-          />
-          <div style={{ fontSize: '15px', paddingTop: '10px', color: 'purple' }}>
-            <div style={{ marginLeft: '25%' }}>
-              <h7 style={{ fontWeight: 'bold' }}>Gram stain</h7> : Gram-negative
-            </div>
-            <div style={{ marginLeft: '36%' }}>
-              <h7 style={{ fontWeight: 'bold' }}>Shape</h7> : Rod-shaped
-            </div>
-            <div style={{ marginLeft: '30%', textAlign: 'justify' }}>
-              <h7 style={{ fontWeight: 'bold' }}>Infection </h7> : infections in the blood, lungs (pneumonia),
-              and other body parts post-surgery.
-            </div>
-          </div>
-          <div style={{ textAlign: 'justify', color: 'purple' }}>
-            commonly found in the environment. Its carbapenem-resistant strains were designated as critical
-            pathogens by the WHO on February 12, 2017.
-          </div>
+            alt="Acinetobacter baumannii Image"
+            style={{ width: '90px', height: '90px', position: 'absolute', top: '0px', left: '-2px', zIndex: '1' }}
+            />
+        </div>
         </div>
       </div>
     </Link>
