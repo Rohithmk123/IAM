@@ -16,7 +16,7 @@ const Acinetobacter_baumannii = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'https://raw.githubusercontent.com/Rohithmk123/IAM/main/Acinetobacter_metadata.csv'
+          'https://github.com/Rohithmk123/IAM/blob/main/ABcoordinates.csv'
         );
 
         if (!response.ok) {
@@ -28,7 +28,7 @@ const Acinetobacter_baumannii = () => {
         Papa.parse(csvText, {
           complete: (result) => {
             const extractedData = result.data
-              .slice(0, 37)
+              .slice(0, 48)
               .map((row) => row.lat_lon);
 
             const processedData = extractedData.map((item) => {

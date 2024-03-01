@@ -11,6 +11,8 @@ const Acinetobacter_baumannii = () => {
   const [circleData, setCircleData] = useState([]);
   const [hoveredCoordinate, setHoveredCoordinate] = useState(null);
   
+// State to hold hovered coordinate information
+const [hoveredCoordinateInfo, setHoveredCoordinateInfo] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -134,7 +136,17 @@ const Acinetobacter_baumannii = () => {
   const handleCoordinateLeave = () => {
     setHoveredCoordinate(null);
   };
-
+  const handleCoordinateHover = (coordinate) => {
+    // Set the same message for all coordinates
+    setHoveredCoordinateInfo({
+      description: 'Number of samples: 50', // You can customize this message as needed
+    });
+  };
+  // Function to handle mouse leave event
+const handleMouseLeave = () => {
+  // Clear the hovered coordinate information
+  setHoveredCoordinateInfo(null);
+};
   
   
   const viewBoxWidth = 650;
@@ -325,18 +337,20 @@ const verticalLine1Style ={
   </circle>
   <circle class="35.562067562117846|95.95035972595234" cx="949.1" cy="65.3" id="2"> </circle>
  {/* Render circles based on circleData with hover events */}
-                  {circleData.map(({ cx, cy, r, fill, key }) => (
-                    <circle
-                      key={key}
-                      cx={cx}
-                      cy={cy}
-                      r={r}
-                      fill={fill}
-                      stroke="none"
-                      onMouseOver={() => handleCoordinateHover(key)}
-                      onMouseOut={handleCoordinateLeave}
-                    />
-                  ))}
+ // JSX to render circles with hover events
+{circleData.map(({ cx, cy, r, fill, key }) => (
+  <circle
+    key={key}
+    cx={cx}
+    cy={cy}
+    r={r}
+    fill={fill}
+    stroke="none"
+    onMouseOver={() => handleCoordinateHover(key)}
+    onMouseOut={handleMouseLeave}
+  />
+))}
+                 
  </g>
 </svg>
 </g>
@@ -358,10 +372,11 @@ const verticalLine1Style ={
     </div>
  {/* Display information above the image when hovering over a coordinate */}
  
-        <div style={{zindex:'5', position: 'absolute', top: '50%', left: '78%', transform: 'translateX(-50%)', zIndex: '10', backgroundColor: 'white', padding: '10px', borderRadius: '5px', height:'40%', width:'40%',boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
-          <p>Information for Coordinate: {hoveredCoordinate}</p>
-          {/* Add more information as needed based on the hoveredCoordinate */}
-        </div>
+ <div style={{ zIndex: '5', position: 'absolute', top: '50%', left: '78%', transform: 'translateX(-50%)', zIndex: '10', backgroundColor: 'white', padding: '10px', borderRadius: '5px', height: '40%', width: '40%', boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)', display: hoveredCoordinateInfo ? 'block' : 'none' }}>
+  <p>{hoveredCoordinateInfo?.description}</p>
+</div>
+
+
      <Footer></Footer>
      
     </div>
