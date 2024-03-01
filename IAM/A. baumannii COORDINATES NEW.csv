@@ -1,0 +1,61 @@
+Run,BioSample,Experiment,geo_loc_name_country,geo_loc_name_country_continent,geo_loc_name,Host,lat_lon
+SRR23106203,SAMN32778013,SRX19057805,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR23106229,SAMN32777989,SRX19057779,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E 
+SRR23106230,SAMN32777988,SRX19057778,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR23106234,SAMN32777985,SRX19057774,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR23106238,SAMN32777981,SRX19057770,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR23106245,SAMN32777975,SRX19057763,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR23106247,SAMN32777973,SRX19057761,India,Asia,"India: Karnataka\, MAHE",Homo sapiens,15.31 N 75.71 E
+SRR23106308,SAMN32778066,SRX19057700,India,Asia,"India: Telangana\, Gandhi Medical College",Homo sapiens,18.11 N 79.01 E
+SRR23106310,SAMN32778065,SRX19057698,India,Asia,"India: Telangana\, Gandhi Medical College",Homo sapiens,18.11 N 79.01 E
+SRR23106313,SAMN32778062,SRX19057695,India,Asia,"India: Telangana\, Gandhi Medical College",Homo sapiens,18.11 N 79.01 E
+SRR23106314,SAMN32778061,SRX19057694,India,Asia,"India: Telangana\, Gandhi Medical College",Homo sapiens,18.11 N 79.01 E 
+SRR23106317,SAMN32778058,SRX19057691,India,Asia,"India: Telangana\, Gandhi Medical College",Homo sapiens,18.11 N 79.01 E
+SRR23106322,SAMN32778054,SRX19057686,India,Asia,"India: Telangana\, Gandhi Medical College",Homo sapiens,18.11 N 79.01 E
+SRR23106324,SAMN32778052,SRX19057684,India,Asia,"India: Telangana\, Gandhi Medical College",Homo sapiens,18.11 N 79.01 E
+SRR23106325,SAMN32778051,SRX19057683,India,Asia,"India: Telangana\, Gandhi Medical College",Homo sapiens,18.11 N 79.01 E
+SRR23106330,SAMN32778046,SRX19057678,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR23106331,SAMN32777938,SRX19057677,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR23106346,SAMN32777958,SRX19057662,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR23106351,SAMN32777954,SRX19057657,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR23106353,SAMN32777952,SRX19057655,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR23106360,SAMN32778085,SRX19057648,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106361,SAMN32778084,SRX19057647,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106362,SAMN32778083,SRX19057646,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106363,SAMN32778082,SRX19057645,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106364,SAMN32778081,SRX19057644,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106365,SAMN32778080,SRX19057643,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106366,SAMN32778079,SRX19057642,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106367,SAMN32778078,SRX19057641,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106368,SAMN32778077,SRX19057640,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106369,SAMN32778076,SRX19057639,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106371,SAMN32778075,SRX19057637,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106372,SAMN32778074,SRX19057636,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106373,SAMN32778073,SRX19057635,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106375,SAMN32778071,SRX19057633,India,Asia,"India: New Delhi\, Safdarjung Hospital",Homo sapiens,28.61 N 77.20 E
+SRR23106397,SAMN32778029,SRX19057611,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR23106238,SAMN32777981,SRX19057770,India,Asia,"India: Chattisgarh\, Jan Swasthya Sahyog",Homo sapiens,21.27 N 81.86 E
+SRR26235461,SAMN37623149,SRX21945729,India,Asia,India: Indore,Homo sapiens,22.68 N 76.05 E
+SRR26235462,SAMN37623148,SRX21945728,India,Asia,India: Indore,Homo sapiens,22.68 N 76.05 E
+SRR16182080,,SRX12466729,India,Asia,India: Kolkata,,22.53 N 88.34 E
+SRR16182084,,SRX12466725,India,Asia,India: Kolkata,,22.53 N 88.34 E
+SRR16182086,,SRX12466723,India,Asia,India: Kolkata,,22.53 N 88.34 E
+SRR16182088,,SRX12466721,India,Asia,India: Kolkata,,22.53 N 88.34 E
+SRR16182091,,SRX12466718,India,Asia,India: Kolkata,,22.53 N 88.34 E
+SRR16182092,,SRX12466717,India,Asia,India: Kolkata,,22.53 N 88.34 E
+SRR16182095,,SRX12466714,India,Asia,India: Kolkata,,22.53 N 88.34 E
+SRR16182096,,SRX12466713,India,Asia,India: Kolkata,,22.53 N 88.34 E
+SRR17520944,,SRX13690993,India,Asia,India: Kolkata,,22.53 N 88.34 E
+SRR15861865,,SRX12152959,India,Asia,India: Kolkata,,22.53 N 88.34 E
+SRR15861866,,SRX12152958,India,Asia,India: Kolkata,,22.53 N 88.34 E
+SRR23034579,SAMN32638606,SRX18989093,India,Asia,India:Tamilnadu,,13.08 N 80.18 E
+SRR23047205,SAMN32638716,SRX19000740,India,Asia,India:Tamilnadu,,13.08 N 80.18 E
+ERR4919986,SAMEA7472339,SAMEA7472339,India,Asia,India,,22.0 N 88.0 E
+ERR4919987,SAMEA7472343,SAMEA7472343,India,Asia,India,,22.0 N 88.0 E
+ERR4919988,SAMEA7472346,SAMEA7472346,India,Asia,India,,22.0 N 88.0 E
+SRR6207757,SAMN07785154,SRX3317035,India,Asia,"India:Assam\,Guwahati",,26.14 N 91.73 E
+SRR11348773,SAMN14299427,SRX7950697,India,Asia,India: Vellore,,12.91 N 79.13 E
+SRR11348774,SAMN14299426,SRX7950696,India,Asia,India: Vellore,,12.91 N 79.13 E
+SRR11348775,SAMN14299425,SRX7950695,India,Asia,India: Vellore,,12.91 N 79.13 E
+SRR11348776,SAMN14299424,SRX7950694,India,Asia,India: Vellore,,12.91 N 79.13 E
+SRR11348781,SAMN14299428,SRX7950689,India,Asia,India: Vellore,,12.91 N 79.13 E

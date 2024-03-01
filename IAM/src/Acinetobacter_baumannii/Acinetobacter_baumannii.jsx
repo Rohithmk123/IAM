@@ -18,7 +18,7 @@ const [hoveredCoordinateInfo, setHoveredCoordinateInfo] = useState(null);
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'https://raw.githubusercontent.com/Rohithmk123/IAM/main/Acinetobacter_metadata.csv'
+          'https://github.com/Rohithmk123/IAM/blob/main/A.%20baumannii%20COORDINATES%20NEW.xlsx'
         );
 
         if (!response.ok) {
