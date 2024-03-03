@@ -113,7 +113,23 @@ function FloatingInfo4() {
             src='/e facum.jpg' // Replace with the actual path to your image
             alt="Acinetobacter baumannii Image"
             style={{ width: '90px', height: '90px', position: 'absolute', top: '0px', left: '-2px', zIndex: '1' }}
-            />
+            /><div style={{ position:'absolute',fontSize: '15px', paddingTop: '10px', color: 'purple',top :'60px' }}>
+            <div style={{ marginLeft: '25%' }}>
+              <h7 style={{ fontWeight: 'bold' }}>Gram stain</h7> : Gram-negative
+            </div>
+            <div style={{ marginLeft: '36%' }}>
+              <h7 style={{ fontWeight: 'bold' }}>Shape</h7> : Rod-shaped
+            </div>
+            <div style={{ marginLeft: '30%', textalign: 'justify' }}>
+              <h7 style={{ fontWeight: 'bold' }}>Infection </h7> : pneumonia with symptoms like cough,
+              fever, chest pain, and shortness of breath
+            </div>
+          </div>
+          <div style={{  position:'absolute',textalign: 'justify', color: 'purple' , top :'200px'}}>
+            non-motile bacterium known for its
+            ability to acquire resistance genes through horizontal gene transfer. Of note,
+            carbapenem-resistant K. pneumoniae strains are of particular concern.
+          </div>
         </div>
       </div>
     </Link>

@@ -18,7 +18,7 @@ const [hoveredCoordinateInfo, setHoveredCoordinateInfo] = useState(null);
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'https://github.com/Rohithmk123/IAM/blob/main/A.%20baumannii%20COORDINATES%20NEW.xlsx'
+          'IAM/src/Microbes_pages/ABCoordinatesNEW.csv'
         );
 
         if (!response.ok) {
@@ -30,7 +30,7 @@ const [hoveredCoordinateInfo, setHoveredCoordinateInfo] = useState(null);
         Papa.parse(csvText, {
           complete: (result) => {
             const extractedData = result.data
-              .slice(0, 37)
+              .slice(0, 50)
               .map((row) => row.lat_lon);
 
             const processedData = extractedData.map((item) => {

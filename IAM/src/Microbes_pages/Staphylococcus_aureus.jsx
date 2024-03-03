@@ -5,12 +5,10 @@ const Staphylococcus_aureus = () => {
   const [latLonData, setLatLonData] = useState([]);
 
   useEffect(() => {
-    // Fetch CSV data from the provided URL
-    const fetchData = async () => {
+    const fetchCSVData = async () => {
       try {
-        const response = await fetch(
-          'https://raw.githubusercontent.com/Rohithmk123/IAM/main/Acinetobacter_metadata.csv'
-        );
+        // Replace 'YOUR_CSV_FILE_URL' with the actual URL of your CSV file
+        const response = await fetch('IAM/src/Microbes_pages/ABCoordinatesNEW.csv');
 
         if (!response.ok) {
           throw new Error('Failed to fetch CSV data');
@@ -20,32 +18,8 @@ const Staphylococcus_aureus = () => {
 
         Papa.parse(csvText, {
           complete: (result) => {
-            // Extract "lat_lon" column until the 37th row
-            const extractedData = result.data
-              .slice(0, 37)
-              .map((row) => row.lat_lon);
-
-            // Split "lat_lon" into separate lat and lon variables
-            const processedData = extractedData.map((item) => {
-              const [lat, latDirection, lon, lonDirection] = item.split(' ');
-
-              // Convert lat and lon to numbers
-              const latNumeric = parseFloat(lat);
-              const lonNumeric = parseFloat(lon);
-
-              // Determine the sign of lat and lon based on direction
-              const latSign = latDirection === 'N' ? 1 : -1;
-              const lonSign = lonDirection === 'E' ? 1 : -1;
-
-              // Calculate final lat and lon values
-              const finalLat = latNumeric * latSign;
-              const finalLon = lonNumeric * lonSign;
-
-              return { lat: finalLat, lon: finalLon };
-            });
-
-            // Set the processed data in the state
-            setLatLonData(processedData);
+            // Process the parsed data as needed
+            setLatLonData(result.data);
           },
           header: true, // Set to true if the CSV file has headers
         });
@@ -54,37 +28,21 @@ const Staphylococcus_aureus = () => {
       }
     };
 
-    fetchData();
+    fetchCSVData();
   }, []);
-
-  // Store latLonData in a variable if needed for further processing
-  const extractedLatLonData = latLonData;
-
-  // You can use extractedLatLonData as needed in your application
 
   return (
     <div>
-      <h2>CSV Reader</h2>
-      {/* You can render other components or UI elements as needed */}
-      
+      {/* Render the fetched CSV data or display loading/error messages */}
+      {latLonData.map((row, index) => (
+        <div key={index}>
+          <p>{row.lat}</p>
+          <p>{row.lon}</p>
+          {/* Add more rows/columns as needed */}
+        </div>
+      ))}
     </div>
   );
 };
 
-
-
-
-
-
 export default Staphylococcus_aureus;
-
-
-
-
-
-
-
-
-
-
-

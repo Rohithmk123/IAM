@@ -110,12 +110,22 @@ function FloatingInfo1() {
             alt="Enterococcus Image"
             style={{ width: '90px', height: '90px', position: 'absolute', top: '-15px', left: '-2px', zIndex: '1' }}
           />
-          <div style={{ position: 'absolute', textAlign: 'justify', top: '90px', zIndex: '1' }}>
-            Enterococcus faecium is a Gram-positive, spherical bacterium associated with nosocomial
-            infections such as bacteremia, endocarditis, and urinary tract and surgical wound infections.
-            Notably, in February 2017, the World Health Organization (WHO) designated
-            vancomycin-resistant E. faecium as a high-priority pathogen due to a significant increase in its
-            prevalence.
+         <div style={{ position:'absolute',fontSize: '15px', paddingTop: '10px', color: 'purple',top :'60px' }}>
+            <div style={{ marginLeft: '25%' }}>
+              <h7 style={{ fontWeight: 'bold' }}>Gram stain</h7> : Gram-negative
+            </div>
+            <div style={{ marginLeft: '36%' }}>
+              <h7 style={{ fontWeight: 'bold' }}>Shape</h7> : Rod-shaped
+            </div>
+            <div style={{ marginLeft: '30%', textalign: 'justify' }}>
+              <h7 style={{ fontWeight: 'bold' }}>Infection </h7> : pneumonia with symptoms like cough,
+              fever, chest pain, and shortness of breath
+            </div>
+          </div>
+          <div style={{  position:'absolute',textalign: 'justify', color: 'purple' , top :'200px'}}>
+            non-motile bacterium known for its
+            ability to acquire resistance genes through horizontal gene transfer. Of note,
+            carbapenem-resistant.
           </div>
         </div>
       </div>
